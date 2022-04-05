@@ -1,4 +1,6 @@
-﻿namespace Meetins.Models.User.Input
+﻿using System;
+
+namespace Meetins.Models.User.Input
 {
     /// <summary>
     /// Входная модель регистрации пользователя.
@@ -28,7 +30,7 @@
         /// <summary>
         /// Дата рождения.
         /// </summary>
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Идентификатор города.

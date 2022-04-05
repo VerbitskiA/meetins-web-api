@@ -1,4 +1,5 @@
 ﻿@page "/user-confirm-profile"
+@inject IProfileService ProfileService
 
 <div class="container">
     <div class="block__style">
@@ -6,7 +7,7 @@
             <div class="user__account">
                 <div class="choose">
                     <button class="user__account-menu top__btn choose__icon" type="button">
-                        <img src="./img/events/occasion/choose-down.svg" alt="Выбрать">
+                        <img src="/img/events/occasion/choose-down.svg" alt="Выбрать">
                     </button>
                     <div class="user__account-dropdown dropdown">
                         <ul class="dropdown__inner-list">
@@ -25,10 +26,10 @@
                 </div>
                 <div class="flex">
                     <div class="profile-pic">
-                        <img class="profile__avatar" src="./img/photo/img2.png" alt="avatar" id="avatar">
+                        <img class="profile__avatar" src="/img/photo/img2.png" alt="avatar" id="avatar">
                         <input class="profile__input" type="file" name="Выберите файл" id="fileId">
                         <label class="profile__update-inner flex" for="fileId">
-                            <img class="update-img" src="./img/photo/update-photo.svg" alt="загрузить фото">
+                            <img class="update-img" src="/img/photo/update-photo.svg" alt="загрузить фото">
                             <span class="text">
                                 Обновить фото
                             </span>
@@ -40,7 +41,7 @@
                         </h2>
                         <div class="user__account-description__location flex indent-bottom">
                             <div class="user__account-location__image">
-                                <img src="./img/settings/location_icon.svg" alt="местоположение">
+                                <img src="/img/settings/location_icon.svg" alt="местоположение">
                             </div>
                             <span>
                                 Санкт-Петербург
@@ -58,10 +59,10 @@
                     </h3>
                     <div class="user__account-about__confirm flex">
                         <button class="warning__btn success__check" id="successCheck" type="button">
-                            <img src="./img/settings/success.svg" alt="успешно">
+                            <img src="/img/settings/success.svg" alt="успешно">
                         </button>
                         <button class="warning__btn error__check" id="errorCheck" type="button">
-                            <img src="./img/settings/error.svg" alt="ошибка">
+                            <img src="/img/settings/error.svg" alt="ошибка">
                         </button>
                     </div>
                 </div>
@@ -81,7 +82,7 @@
                             Интересы
                         </h3>
                         <button class="add">
-                            <img class="add__image" src="./img/photo/add.svg" alt="добавить">
+                            <img class="add__image" src="/img/photo/add.svg" alt="добавить">
                         </button>
                     </div>
                     <ul class="add__description-list interest flex">
@@ -108,7 +109,7 @@
                             Места
                         </h3>
                         <button class="add">
-                            <img class="add__image" src="./img/photo/add.svg" alt="добавить">
+                            <img class="add__image" src="/img/photo/add.svg" alt="добавить">
                         </button>
                     </div>
                     <ul class="add__description-list places flex">
@@ -138,14 +139,14 @@
             </div>
             <div class="gallery__grid grid">
                 <div class="gallery__grid-image gallery__editing">
-                    <img src="./img/photo/user1.jpg" alt="user">
+                    <img src="/img/photo/user1.jpg" alt="user">
                     <p class="gallery__checkbox text">
                         это главное фото
                     </p>
                 </div>
                 <div class="gallery__grid-image gallery__editing">
-                    <img src="./img/photo/user1.jpg" alt="user">
-                    <img class="cancel-icon" src="./img/photo/cancel.svg" alt="убрать">
+                    <img src="/img/photo/user1.jpg" alt="user">
+                    <img class="cancel-icon" src="/img/photo/cancel.svg" alt="убрать">
                     <div class="gallery__checkbox checkbox">
                         <input class="gallery-input checkbox__input" type="checkbox" id="checkbox_4">
                         <label class="gallery__label checkbox__label text" for="checkbox_4">
@@ -154,14 +155,14 @@
                     </div>
                 </div>
                 <div class="gallery__grid-image gallery__editing">
-                    <img src="./img/photo/user2.jpg" alt="user">
+                    <img src="/img/photo/user2.jpg" alt="user">
                 </div>
                 <div class="gallery__grid-image gallery__editing">
-                    <img src="./img/photo/user3.jpg" alt="user">
+                    <img src="/img/photo/user3.jpg" alt="user">
                 </div>
                 <div class="gallery__grid-image gallery__editing">
-                    <img src="./img/photo/user1.jpg" alt="user">
-                    <img class="cancel-icon" src="./img/photo/cancel.svg" alt="убрать">
+                    <img src="/img/photo/user1.jpg" alt="user">
+                    <img class="cancel-icon" src="/img/photo/cancel.svg" alt="убрать">
                     <div class="gallery__checkbox checkbox">
                         <input class="gallery-input checkbox__input" type="checkbox" checked id="checkbox_5">
                         <label class="gallery__label checkbox__label text" for="checkbox_5">

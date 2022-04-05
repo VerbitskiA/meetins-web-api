@@ -31,7 +31,7 @@ namespace Meetins.Services.User
         /// <param name="birthDate">Дата рождения.</param>
         /// <param name="cityId">Идентификатор города.</param>
         /// <returns>Данные пользователя.</returns>
-        public async Task<UserEntity> AddUserAsync(string name, string email, string password, string gender, string birthDate, string cityId)
+        public async Task<UserEntity> AddUserAsync(string name, string email, string password, string gender, DateTime birthDate, string cityId)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace Meetins.Services.User
                     NormalizedLogin = guid.ToString("N").ToUpperInvariant(),
                     Login = guid.ToString("N"),
                     PhoneNumber = "телефон не добавлен",
-                    BirthDate = DateTime.Parse(birthDate),
+                    BirthDate = birthDate,
                     CityId = Guid.Parse(cityId),
                     ConfirmEmailCode = "123456"
                 };

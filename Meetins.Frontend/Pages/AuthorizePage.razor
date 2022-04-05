@@ -1,0 +1,75 @@
+﻿@inject IUserService UserService
+@inject ICommonService CommonService
+@inject NavigationManager NavigationManager
+
+
+<div>
+    <h1>Авторизация пользователя</h1>
+    <EditForm Model = "@_loginData" OnValidSubmit="@LoginAsync">
+        <DataAnnotationsValidator/>
+        <br />
+        <label>Email</label>
+        <br />
+        <InputText @bind-Value="_loginData.Email"></InputText>
+        <br />
+        <ValidationMessage For="()=>_loginData.Email"/>
+        <br />
+        <label>Password</label>
+        <br />
+        <InputText @bind-Value="_loginData.Password"></InputText>
+        <br />
+        <ValidationMessage For="()=>_loginData.Password"/>
+        <button type="submit">Log In</button>
+    </EditForm>
+    <br />
+</div>
+<hr/>
+<div>
+    <h1>Регистрация нового пользователя</h1>
+    <EditForm Model = "@_registerData" OnValidSubmit="@RegisterAsync">
+        <DataAnnotationsValidator/>
+        <br />
+        <label>UserName</label>
+        <br />
+        <InputText @bind-Value="_registerData.Name"></InputText>
+        <br />
+        <ValidationMessage For="()=>_registerData.Name"/>
+        <br />
+        <label>Email</label>
+        <br />
+        <InputText @bind-Value="_registerData.Email"></InputText>
+        <br />
+        <ValidationMessage For="()=>_registerData.Email"/>
+        <br />
+        <label>Password</label>
+        <br />
+        <InputText @bind-Value="_registerData.Password"></InputText>
+        <br />
+        <ValidationMessage For="()=>_registerData.Password"/>
+        <br />
+        <label>Gender</label>
+        <br />
+        <InputText @bind-Value="_registerData.Gender"></InputText>
+        <br />
+        <ValidationMessage For="()=>_registerData.Gender"/>
+        <br />
+        <label>Birthday</label>
+        <br />
+        <InputDate  @bind-Value="_registerData.BirthDate"></InputDate>
+        <br />
+        <ValidationMessage For="()=>_registerData.BirthDate"/>
+        <br />
+        <label>Страна</label>
+        <br />
+        <InputSelect @bind-Value=_registerData.CityId>
+            <option value="">Выберите город...</option>
+            @foreach(var city in _cities)
+            {
+                <option value="@city.CityId.ToString()">@city.CityName</option>
+            }
+        </InputSelect>
+        <br />
+        <ValidationMessage For="()=>_registerData.CityId"/>
+        <button type="submit">Register</button>
+    </EditForm>
+</div>

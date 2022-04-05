@@ -35,7 +35,7 @@ namespace Meetins.Abstractions.Repositories
         /// <param name="birthDate">Дата рождения.</param>
         /// <param name="cityId">Идентификатор города.</param>
         /// <returns>Данные пользователя.</returns>
-        Task<UserEntity> AddUserAsync(string name, string email, string password, string gender, string birthDate, string cityId);
+        Task<UserEntity> AddUserAsync(string name, string email, string password, string gender, DateTime birthDate, string cityId);
 
         /// <summary>
         /// Метод найдёт пользователя по емейлу.

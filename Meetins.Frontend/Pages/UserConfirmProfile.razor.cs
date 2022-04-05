@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Meetins.Models.Profile.Output;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace Meetins.Frontend.Pages
 {
-    public partial class UserConfirmProfile
+    public partial class UserConfirmProfile:ComponentBase
     {
-        public UserConfirmProfile()
+        private ProfileOutput _profile { get; set; } = new ProfileOutput();
+        protected override async Task OnInitializedAsync()
         {
-
+            _profile = await ProfileService.GetMyProfile();
+            StateHasChanged();
         }
     }
 }

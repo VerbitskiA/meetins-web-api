@@ -41,7 +41,7 @@ namespace Meetins.Services.User
         /// <param name="birthDate">Дата рождения.</param>
         /// <param name="cityId">Идентификатор города.</param>
         /// <returns>Данные пользователя после аутентификации: профиль и токены.</returns>
-        public async Task<LoginOutput> RegisterUserAsync(string name, string email, string password, string gender, string birthDate, string cityId)
+        public async Task<LoginOutput> RegisterUserAsync(string name, string email, string password, string gender, DateTime birthDate, string cityId)
         {
             try
             {
