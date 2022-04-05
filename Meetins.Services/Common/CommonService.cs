@@ -5,6 +5,7 @@ using Meetins.Core.Logger;
 using Meetins.Models.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Meetins.Services.Common
@@ -29,7 +30,12 @@ namespace Meetins.Services.Common
         /// <returns>6-значный цифробуквенный код.</returns>
         public async Task<string> GenerateCodeAsync()
         {
-            throw new NotImplementedException();
+            Random random = new Random();
+
+            const string pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var chars = Enumerable.Range(0, 6)
+                .Select(x => pool[random.Next(0, pool.Length)]);
+            return new string(chars.ToArray());
         }
 
         /// <summary>
