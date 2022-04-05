@@ -49,5 +49,27 @@ namespace Meetins.Services.Common
                 throw;
             }
         }
+
+        /// <summary>
+        /// Метод получает число зарегистрированных пользователей за последние 24 часа
+        /// </summary>
+        /// <returns>Число зарегистрированных пользователей</returns>
+        public async Task<int> GetRegistrationsForLast24HoursAsync()
+        {
+            try
+            {
+                var result = _postgreDbContext.Users
+                    .Count(user => user.DateRegister.Day == DateTime.Now.Day && user.DateRegister.Month == DateTime.Now.Month && user.DateRegister.Year == DateTime.Now.Year);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                await logger.LogError();
+                throw;
+            }
+        }
     }
 }

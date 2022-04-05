@@ -20,5 +20,11 @@ namespace Meetins.Abstractions.Services
         /// </summary>
         /// <returns>6-значный цифробуквенный код.</returns>
         Task<string> GenerateCodeAsync();
+
+        /// <summary>
+        /// Метод получает число зарегистрированных пользователей за последние 24 часа
+        /// </summary>
+        /// <returns>Число зарегистрированных пользователей</returns>
+        Task<int> GetRegistrationsForLast24HoursAsync();
     }
 }
