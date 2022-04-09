@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Meetins.Services.Common
 {
     /// <summary>
-    /// В реппозитории содержится общий функционал.
+    /// В репозитории содержится общий функционал.
     /// </summary>
     public class CommonRepository : ICommonRepository
     {

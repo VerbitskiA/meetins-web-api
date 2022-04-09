@@ -74,5 +74,10 @@ namespace Meetins.Core.Data
         /// Соответствует таблице dbo.Logs.
         /// </summary>
         public DbSet<LogEntity> Logs { get; set; }
+
+        /// <summary>
+        /// Соответствует таблице dbo.Reports
+        /// </summary>
+        public DbSet<ReportEntity> Reports { get; set; }
     }
 }

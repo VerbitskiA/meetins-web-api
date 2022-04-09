@@ -1,5 +1,5 @@
 ﻿using Meetins.Abstractions.Repositories;
-using Meetins.Core.Exceptions;
+using Meetins.Models.Exceptions;
 using Meetins.Models.KudaGo;
 using Meetins.Services.KudaGo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
