@@ -54,5 +54,39 @@ namespace Meetins.Services.Reports
             }
             
         }
+
+        /// <summary>
+        /// Получение обращения по Id.
+        /// </summary>
+        /// <param name="reportId"> Идентификатор обращения. </param>
+        /// <returns> Обращение. </returns>
+        public async Task<IEnumerable<ReportOutput>> GetReportByReportId(Guid reportId)
+        {
+            try
+            {
+                var result = await _postgreDbContext.Reports.Where(report => report.ReportId.Equals(reportId))
+                    .Include(d => d.User)
+                    .Select(report => new ReportOutput
+                    {
+                        ReportId = report.ReportId,
+                        UserId = report.UserId,
+                        UserName = report.User.Name,
+                        Status = report.Status,
+                        Topic = report.Topic,
+                        Text = report.Text,
+                        Date = report.Date
+                    })
+                    .ToListAsync();
+
+                return result;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                await logger.LogError();
+                throw;
+            }
+        }
     }
 }

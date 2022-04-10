@@ -1,8 +1,6 @@
 ﻿using Meetins.Models.Reports;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Meetins.Abstractions.Services
@@ -17,5 +15,12 @@ namespace Meetins.Abstractions.Services
         /// </summary>
         /// <returns> Список всех обращений. </returns>
         Task<IEnumerable<ReportOutput>> GetAllReportsAsync();
+
+        /// <summary>
+        /// Получение обращения по Id.
+        /// </summary>
+        /// <param name="reportId"> Идентификатор обращения. </param>
+        /// <returns> Обращение. </returns>
+        Task<IEnumerable<ReportOutput>> GetReportByReportId(Guid reportId);
     }
 }

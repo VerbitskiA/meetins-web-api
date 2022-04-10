@@ -1,6 +1,7 @@
 ﻿using Meetins.Abstractions.Repositories;
 using Meetins.Abstractions.Services;
 using Meetins.Models.Reports;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,6 +28,25 @@ namespace Meetins.Services.Reports
             var result = await _reportRepository.GetAllReportsAsync();
 
             return result;
+        }
+
+        /// <summary>
+        /// Получение обращения по Id.
+        /// </summary>
+        /// <param name="reportId"> Идентификатор обращения. </param>
+        /// <returns> Обращение. </returns>
+        public async Task<IEnumerable<ReportOutput>> GetReportByReportId(Guid reportId)
+        {
+            try
+            {
+                var result = await _reportRepository.GetReportByReportId(reportId);
+
+                return result;
+            }
+            catch(Exception)
+            {
+                throw;
+            } 
         }
     }
 }
