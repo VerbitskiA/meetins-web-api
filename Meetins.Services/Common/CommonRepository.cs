@@ -51,7 +51,7 @@ namespace Meetins.Services.Common
         }
 
         /// <summary>
-        /// Метод получает число зарегистрированных пользователей за последние 24 часа
+        /// Метод получает число зарегистрированных пользователей за последние сутки
         /// </summary>
         /// <returns>Число зарегистрированных пользователей</returns>
         public async Task<int> GetRegistrationsForLast24HoursAsync()
@@ -59,7 +59,7 @@ namespace Meetins.Services.Common
             try
             {
                 var result = _postgreDbContext.Users
-                    .Count(user => user.DateRegister.Day == DateTime.Now.Day && user.DateRegister.Month == DateTime.Now.Month && user.DateRegister.Year == DateTime.Now.Year);
+                    .Where(user => user.DateRegister.Day == DateTime.Now.Day && user.DateRegister.Month == DateTime.Now.Month && user.DateRegister.Year == DateTime.Now.Year).Count();
 
                 return result;
             }

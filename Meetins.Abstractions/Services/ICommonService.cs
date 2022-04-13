@@ -22,7 +22,7 @@ namespace Meetins.Abstractions.Services
         Task<string> GenerateCodeAsync();
 
         /// <summary>
-        /// Метод получает число зарегистрированных пользователей за последние 24 часа
+        /// Метод получает число зарегистрированных пользователей за последние сутки
         /// </summary>
         /// <returns>Число зарегистрированных пользователей</returns>
         Task<int> GetRegistrationsForLast24HoursAsync();

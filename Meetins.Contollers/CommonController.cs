@@ -33,18 +33,5 @@ namespace Meetins.Contollers
 
             return Ok(result);
         }
-
-        /// <summary>
-        /// Метод получает число зарегистрированных пользователей за последние 24 часа
-        /// </summary>
-        /// <returns>Число зарегистрированных пользователей</returns>
-        //[HttpGet]
-        //[Route("get-registration")]
-        //public async Task<ActionResult<int>> GetRegistrationsForLast24HoursAsync()
-        //{
-        //    var result = await _commonService.GetRegistrationsForLast24HoursAsync();
-
-        //    return result;
-        //}
     }
 }

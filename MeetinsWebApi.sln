@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meetins.Communication", "Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meetins.Tests", "Meetins.Tests\Meetins.Tests.csproj", "{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetins.Bot", "Meetins.Bot\Meetins.Bot.csproj", "{468E193A-054C-474E-A2F6-DEED7B1564DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{468E193A-054C-474E-A2F6-DEED7B1564DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{468E193A-054C-474E-A2F6-DEED7B1564DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{468E193A-054C-474E-A2F6-DEED7B1564DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{468E193A-054C-474E-A2F6-DEED7B1564DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
