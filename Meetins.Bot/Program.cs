@@ -12,6 +12,7 @@ class Program : BotfProgram
 {
     readonly ILogger<Program> _logger;
     private ICommonService _commonService;
+    private IConfiguration _configuration;
 
     public static void Main(string[] args) => StartBot(args, onConfigure: (svc, cfg) =>
     {
@@ -25,10 +26,11 @@ class Program : BotfProgram
         svc.AddLogging();
     });
 
-    public Program(ILogger<Program> logger, ICommonService commonService)
+    public Program(ILogger<Program> logger, ICommonService commonService, IConfiguration configuration)
     {
         _logger = logger;
         _commonService = commonService;
+        _configuration = configuration;
 
     }
 
@@ -43,7 +45,11 @@ class Program : BotfProgram
     [Action("«арегистрированные пользователи за последние сутки")]
     public async Task Stat()
     {
-        PushL($"„исло зарегистрированных пользователей за последние сутки: {await _commonService.GetRegistrationsForLast24HoursAsync()}");
+        await Client.SendTextMessageAsync(
+            chatId: _configuration.GetValue<string>("groupId"),
+            text: $"„исло зарегистрированных пользователей за последние сутки: {await _commonService.GetRegistrationsForLast24HoursAsync()}");
+
+        PushL("ƒанные отправлены в канал");
     }
 
     /*
