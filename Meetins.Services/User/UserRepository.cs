@@ -531,7 +531,7 @@ namespace Meetins.Services.User
                     return new BlockUserOutput
                     {
                         LockoutEnabled = true,
-                        LockoutEnd = user.LockoutEnd.ToString()
+                        LockoutEnd = user.LockoutEnd.Value
                     };
                 }
                 else
@@ -539,7 +539,7 @@ namespace Meetins.Services.User
                     return new BlockUserOutput
                     {
                         LockoutEnabled = false,
-                        LockoutEnd = user.LockoutEnd.ToString()
+                        LockoutEnd = user.LockoutEnd.Value
                     };
                 }
             }

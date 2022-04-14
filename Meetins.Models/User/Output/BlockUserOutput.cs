@@ -9,6 +9,6 @@ namespace Meetins.Models.User.Output
     public class BlockUserOutput
     {
         public bool LockoutEnabled { get; set; }
-        public string LockoutEnd { get; set; }
+        public DateTime LockoutEnd { get; set; }
     }
 }
