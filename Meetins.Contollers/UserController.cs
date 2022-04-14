@@ -139,11 +139,11 @@ namespace Meetins.Controllers
         }
 
         /// <summary>
-        /// Метод проверит проверит заблокирован ли пользователь
+        /// Метод проверит заблокирован ли пользователь
         /// </summary>
         /// <returns>Статус блокировки пользователя</returns>
         [HttpGet]
-        [Route("check-ban-status")]
+        [Route("check-lockout-status")]
         public async Task<ActionResult<BlockUserOutput>> IsLockoutStatusAsync()
         {
             try

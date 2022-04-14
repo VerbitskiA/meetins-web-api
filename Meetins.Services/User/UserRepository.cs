@@ -529,7 +529,7 @@ namespace Meetins.Services.User
                 return new BlockUserOutput
                 {
                     LockoutEnabled = user.LockoutEnabled,
-                    LockoutEnd = user.LockoutEnd.Value
+                    LockoutEnd = user.LockoutEnd.HasValue ? user.LockoutEnd.Value.ToString() : ""
                 };
             }
             catch (Exception e)
