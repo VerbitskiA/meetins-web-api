@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Meetins.Frontend.Pages
 {
-    public partial class CinemaEvents
+    public partial class AuthorizeCopyPage
     {
-        public CinemaEvents()
+        public AuthorizeCopyPage()
         {
 
         }

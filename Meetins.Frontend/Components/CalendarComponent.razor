@@ -1,0 +1,34 @@
+﻿@using Meetins.Frontend.Extension
+<div class="calendar__content">
+    <div class="calendar">
+        <ul class="calendar__list flex justify-content">
+            @foreach(var date in _calendar)
+            {
+                string activeDay = "";
+                if(date.Day==_chooseDate.Day && date.Month==_chooseDate.Month && date.Year==_chooseDate.Year)
+                {
+                    activeDay = "active__day";
+                }
+                <li class="calendar__list-item @activeDay" @onclick="()=>SetActiveDate(date)">
+                    <p class="calendar__text text">
+                        @date.DayOfWeek.GetDisplayName()
+                    </p>
+                    <p class="calendar__text small__text">
+                        @date.GetDisplayMonth()
+                    </p>
+                    <p class="calendar__data text">
+                        @date.Day
+                    </p>
+                </li>
+            }
+        </ul>
+        <div class="slider__arrows">
+            <button class="mini__slider-arrows left__arrow" type="button" @onclick="GoLeft">
+                <img src="/img/events/icons/arrow-left.svg" alt="Листать назад">
+            </button>
+            <button class="mini__slider-arrows right__arrow" type="button"  @onclick="GoRight">
+                <img src="/img/photo/arrow-right.svg" alt="Листать вперед">
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿@page "/user-editing-profile"
+@inject IProfileService  ProfileService
 <div class="container">
     <div class = "block__style">
         <div class=" indent-bottom">
@@ -35,7 +36,7 @@
                     </div>
                     <div class="user__account-data">
                         <h2 class="user__account-title big-title">
-                            Алиса, 24 года
+                            @_name , 24 года
                         </h2>
                         <div class="user__account-description__location flex indent-bottom">
                             <div class="user__account-location__image">

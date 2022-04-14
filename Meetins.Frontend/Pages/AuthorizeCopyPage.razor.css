@@ -1,0 +1,68 @@
+﻿.container-main-page {
+    border:double;
+}
+.collapse{
+    display:none;
+}
+.content {
+    display: none;
+}
+.text {
+    font-family: 'Nunito';
+    font-style: normal;
+}
+.text-main {
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 50px;
+    color: #51A2F2;
+}
+.text-mini {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+}
+.text-btn {
+    font-weight: 800;
+    font-size: 19px;
+    line-height: 26px;
+    letter-spacing: -0.03em;
+    color: #707070;
+}
+.text-left {
+    text-align: left;
+}
+.text-center{
+    text-anchor:middle;
+}
+
+.btn {
+    border:none;
+    width: 180px;
+    height: 64px;
+    left: 0px;
+    top: 0px;
+    background: #FFE55C;
+    box-shadow: 0px 6px 14px rgba(255, 229, 92, 0.56);
+    border-radius: 31px;
+}
+    .btn:hover {
+        background: linear-gradient(0deg, rgba(112, 112, 112, 0.05), rgba(112, 112, 112, 0.05)),#ffe55c;
+        box-shadow: 0px 4px 7px rgba(255, 229, 92, 0.56);
+    }
+.form-input {
+    width: 380px;
+    height: 60px;
+    left: 2px;
+    top: 2px;
+
+    border: 2px solid #D4E8FC;
+    border-radius: 33px;
+    text-align:left;
+}
+.social-icon {
+}
+.social-link{
+    opacity:0.3;
+}

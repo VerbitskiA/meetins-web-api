@@ -1,0 +1,131 @@
+﻿@layout EmptyLayout
+
+<div class="container-main-page">
+    <div class="">
+        <h3 class="text text-main">
+            Войдите, чтобы
+            <br />
+            попробовать
+        </h3>
+        <form class="box__form form">
+            <input type="email" placeholder="Введите ваш e-mail адрес" class="text text-mini form-input" >
+            <button type="submit" class="btn" > Далее </button>
+        </form>
+        <div class="">
+            <span class="text text-mini text-left text-center">Войти с помощь:</span>
+            <a href="#" class="social-link">
+                <img src="/img/authorizepage/dating/vk.svg" alt="vk" class="social-icon"></a>
+            <a href="#" class="social-link">
+                <img src="/img/authorizepage/dating/google.svg" alt="google" class="social-icon"></a>
+            <a href="#" class="social-link">
+                <img src="/img/authorizepage/dating/telegram.svg" alt="telegram" class="social-icon"></a>
+        </div>
+    </div>
+</div>
+<div class="dating__box box">
+            
+        <hr />
+        <div class="box__item collapse">
+            <h4 class="box__title title title--blue box__title--bottom ">Вход в аккаунт 
+                Метинс
+            </h4>
+            <a class="box__btn btn btn--transporant" href="#">
+                <img class="box__arrow"  src="/img/authorizepage/box/arrow.svg" alt="arrow">
+                <span class="box__text">Назад</span>
+            </a>
+            <form action="send.php" method="post" class="box__form form form--bottom">
+                <input type="password" name="password" required placeholder="Введите пароль" class="form__input">
+                <button type="submit" class="form__btn btn btn--brand"> Далее </button>
+            </form>
+            <a href="#" class="box__link-password">Забыли пароль?</a>
+        </div>
+        <hr />
+        <div class="box__item collapse">
+            <h4 class="box__title title title--blue box__title--width">Создание профиля
+            </h4>
+            <div class="box__subtitle">Пройдите быструю регистрацию
+            </div>
+            <form action="send.php" method="post" class="box__form form form--column">
+                <fieldset class="form__fieldset">
+                    <div class="form__title">Я</div>
+                    <div class="form__wrap-flex">
+                        <label class="form__label">
+                            <input name="radio" type="radio"  checked="checked" value="1" class="form__check check">
+                            <span class="form__check-pseudo check-pseudo check-pseudo--radius"> 
+                                <img class="form__icon" src="/img/authorizepage/form/man.svg" alt="man">
+                                <span class="form__text">Мужчина</span>
+                            </span>
+                        </label>
+                        <label class="form__label">
+                            <input name="radio" type="radio" class="form__check check">
+                            <span class="form__check-pseudo check-pseudo check-pseudo--radius">
+                                <img class="form__icon" src="/img/authorizepage/form/woman.svg" alt="woman">
+                                <span class="form__text">Женщина</span>
+                            </span>
+                        </label>
+                    </div>
+                </fieldset>
+                <fieldset class="form__fieldset form__fieldset--bottom">
+                    <div class="form__title">Меня зовут</div>
+                    <input type="text" name="text" required placeholder="Как вас зовут?" class="form__input form__input--width">
+                </fieldset>
+                <div class="form__wrap-select">
+                    <div class="form__title">Родился</div>
+                    <div class="form__select-flex">
+                        <select class="form__select">
+                            <option>День</option>
+                            <option>Пункт 2</option>
+                            <option>Пункт 2</option>
+                        </select>
+                        <select class="form__select">
+                            <option>Месяц</option>
+                            <option>Пункт 2</option>
+                            <option>Пункт 2</option>
+                        </select>
+                        <select class="form__select">
+                            <option>Год</option>
+                            <option>Пункт 2</option>
+                            <option>Пункт 2</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="form__btn-big btn btn--brand"> Продолжить </button>
+                <a href="#" class="box__link-account">У меня уже есть аккаунт</a>
+            </form>
+        </div>
+        <hr />
+        <div class="box__item box__item--height collapse">
+            <h4 class="box__title title title--blue box__title--width">Создание профиля
+            </h4>
+            <div class="box__subtitle">это последний шаг!
+            </div>
+            <form action="send.php" method="post" class="box__form form">
+                <div class="form__wrap-file">
+                    <div class="form__group">
+                        <input type="file" name="file" id="file" class="form__file">
+                        <label for="file" class="form__file-btn btn btn-tertiary js-labelFile">
+                            <i class="form___wrap-btn">
+                                <img class="form___arrowup" src="/img/authorizepage/form/arrowup.svg" alt="arrowup">
+                                <i class="form___text-up js-fileName">Выбрать</i>
+                            </i>
+                            <i class="form__subtitle-btn js-fileName">jpg, png не более 10мб</i>
+                        </label>
+                    </div>
+                    <div class="form__wrap-text">
+                        <div class="form__title-file">Загрузите фотографию профиля</div>
+                        <div class="form__subtitle-file">условие 1</div>
+                        <div class="form__subtitle-file">условие 2</div>
+                        <div class="form__subtitle-file">условие 3</div>
+                    </div>
+                </div>
+                <div class="form__wrap-marker">
+                    <input type="text" name="text" required placeholder="Укажите свое местоположение" class="form__input form__input--marker">
+                    <img class="form__marker" src="/img/authorizepage/form/marker.svg" alt="marker">
+                </div>
+                <input type="password" name="password" required placeholder="Создайте пароль" class="form__input form__input--password-new">
+                <div class="form__symbol">не менее 8 символов и спец. знаки</div>
+                <button type="submit"  class="form__btn-file btn btn--brand"> Завершить и войти в Метинс </button>
+            </form>
+        </div>
+        <hr />
+</div>

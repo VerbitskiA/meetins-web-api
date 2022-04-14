@@ -1,75 +1,411 @@
-﻿@inject IUserService UserService
+﻿@page "/authorize-page"
 @inject ICommonService CommonService
+@inject IUserService UserService
 @inject NavigationManager NavigationManager
+@layout EmptyLayout
 
+<!DOCTYPE html>
+<html lang="ru">
 
-<div>
-    <h1>Авторизация пользователя</h1>
-    <EditForm Model = "@_loginData" OnValidSubmit="@LoginAsync">
-        <DataAnnotationsValidator/>
-        <br />
-        <label>Email</label>
-        <br />
-        <InputText @bind-Value="_loginData.Email"></InputText>
-        <br />
-        <ValidationMessage For="()=>_loginData.Email"/>
-        <br />
-        <label>Password</label>
-        <br />
-        <InputText @bind-Value="_loginData.Password"></InputText>
-        <br />
-        <ValidationMessage For="()=>_loginData.Password"/>
-        <button type="submit">Log In</button>
-    </EditForm>
-    <br />
-</div>
-<hr/>
-<div>
-    <h1>Регистрация нового пользователя</h1>
-    <EditForm Model = "@_registerData" OnValidSubmit="@RegisterAsync">
-        <DataAnnotationsValidator/>
-        <br />
-        <label>UserName</label>
-        <br />
-        <InputText @bind-Value="_registerData.Name"></InputText>
-        <br />
-        <ValidationMessage For="()=>_registerData.Name"/>
-        <br />
-        <label>Email</label>
-        <br />
-        <InputText @bind-Value="_registerData.Email"></InputText>
-        <br />
-        <ValidationMessage For="()=>_registerData.Email"/>
-        <br />
-        <label>Password</label>
-        <br />
-        <InputText @bind-Value="_registerData.Password"></InputText>
-        <br />
-        <ValidationMessage For="()=>_registerData.Password"/>
-        <br />
-        <label>Gender</label>
-        <br />
-        <InputText @bind-Value="_registerData.Gender"></InputText>
-        <br />
-        <ValidationMessage For="()=>_registerData.Gender"/>
-        <br />
-        <label>Birthday</label>
-        <br />
-        <InputDate  @bind-Value="_registerData.BirthDate"></InputDate>
-        <br />
-        <ValidationMessage For="()=>_registerData.BirthDate"/>
-        <br />
-        <label>Страна</label>
-        <br />
-        <InputSelect @bind-Value=_registerData.CityId>
-            <option value="">Выберите город...</option>
-            @foreach(var city in _cities)
-            {
-                <option value="@city.CityId.ToString()">@city.CityName</option>
-            }
-        </InputSelect>
-        <br />
-        <ValidationMessage For="()=>_registerData.CityId"/>
-        <button type="submit">Register</button>
-    </EditForm>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meetins</title>
+    <base href="/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,600;1,400&family=Inter:wght@600&family=Nunito:wght@300;400;600&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>
+    
+
+</head>
+
+<body class="body js-body">
+    <img class="pp"  hidden  src="/img/authorizepage/main1.jpg" alt="">
+    <style>
+      .pp {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 999;
+        transform: translateX(-50%);
+        opacity: .6;
+        pointer-events: none;
+      }
+    </style>
+    <svg display="none">
+        <symbol id="arrow" viewBox="0 0 33 23">
+         <path d="M13.4069 1.77106C15.0072 -0.180516 17.9928 -0.180514 19.5931 1.77106L31.6402 16.4627C33.7812 19.0737 31.9237 22.999 28.5471 22.999H4.45285C1.07631 22.999 -0.781213 19.0737 1.35978 16.4627L13.4069 1.77106Z" fill="currentColor"></path>
+       </symbol>
+    </svg>
+    <header class="header">
+        <div class="header__top">
+            <div class="header__container">
+                <button type="button" aria-label="close" class="burger header__burger js-burger">
+                    <span class="burger__line"></span>
+                    <span class="burger__line"></span>
+                    <span class="burger__line"></span>
+                </button>
+                <a class="header__logo logo" href="#">
+                    <img src="/img/authorizepage/header/logo.svg" class="logo__img"  alt="logo">
+                </a>
+                <nav class="header__nav nav js-nav">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">Знакомства</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">События</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">Возможности</a>
+                        </li>
+                        <li class="nav__item nav__item--none">
+                            <a href="#" class="nav__link">Установить</a>
+                        </li>
+                    </ul>
+                    <div class="header__social social social--flex js-social">
+                        <div class="social__flex-center">
+                            <a href="#" class="social__wrap-icon"><img src="/img/authorizepage/footer/vk.svg" alt="vk"></a>
+                            <a href="#" class="social__wrap-icon"><img src="/img/authorizepage/footer/telegram.svg" alt="telegram"></a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="header__wrap">
+                    <a href="#" class="header__enter">Войти</a>
+                    <a href="#" class="header__install">Установить</a>
+                </div>
+            </div>
+        </div>
+        <div class="header__center">
+            <div class="header__container-center container">
+                <h1 class="header__title title">
+                    Знакомства стали 
+                    проще
+                </h1>
+                <p class="header__subtitle subtitle">
+                    Люди, события, встречи
+                </p>
+            </div>
+        </div>
+    </header>
+    <div class="dating">
+        <div class="dating__container container">
+            <h2 class="dating__title title title--big">ЗНАКОМСТВА</h2>
+            <div class="dating__wrap" data-aos="fade-up">
+                <h3 class="dating__title-circl title title--blue-xs dating__title-none">Реальные встречи</h3>
+                <p class="dating__subtitle subtitle subtitle--grey">Устал свайпить? Тогда Метинс точно для тебя. Мы придумали как знакомиться интересно и эффективно.
+                </p>
+                <p class="dating__subtitle-two subtitle subtitle--grey">
+                 Попробуй!
+                </p>
+            </div>
+            <div style="--step: 0" class="dating__box box js-box single-item">
+                <div class="box__item js-box-item box__item--auto" data-aos="fade-up">
+                    <h4 class="box__title title title--blue">Войдите, чтобы
+                        попробовать
+                    </h4>
+                    <form action="send.php" method="post" class="box__form form">
+                        <input type="email" name="email" required placeholder="Введите ваш e-mail адрес" class="form__input">
+                        <button type="submit" class="form__btn btn btn--brand js-btn" > Далее </button>
+                    </form>
+                    <div class="box__social social">
+                        <div class="social__text">Войти с помощь:</div>
+                        <a href="#" class="social__link">
+                            <img src="/img/authorizepage/dating/vk.svg" alt="vk" class="social__icon"></a>
+                        <a href="#" class="social__link">
+                            <img src="/img/authorizepage/dating/google.svg" alt="google" class="social__icon"></a>
+                        <a href="#" class="social__link">
+                            <img src="/img/authorizepage/dating/telegram.svg" alt="telegram" class="social__icon"></a>
+                    </div>
+                </div>
+                <div class="box__item">
+                    <h4 class="box__title title title--blue box__title--bottom ">Вход в аккаунт 
+                        Метинс
+                    </h4>
+                    <a class="box__btn btn btn--transporant" href="#">
+                        <img class="box__arrow"  src="/img/authorizepage/box/arrow.svg" alt="arrow">
+                        <span class="box__text">Назад</span>
+                    </a>
+                    <form action="send.php" method="post" class="box__form form form--bottom">
+                        <input type="password" name="password" required placeholder="Введите пароль" class="form__input">
+                        <button type="submit" class="form__btn btn btn--brand"> Далее </button>
+                    </form>
+                    <a href="#" class="box__link-password">Забыли пароль?</a>
+                </div>
+                <div class="box__item">
+                    <h4 class="box__title title title--blue box__title--width">Создание профиля
+                    </h4>
+                    <div class="box__subtitle">Пройдите быструю регистрацию
+                    </div>
+                    <form action="send.php" method="post" class="box__form form form--column">
+                        <fieldset class="form__fieldset">
+                            <div class="form__title">Я</div>
+                            <div class="form__wrap-flex">
+                                <label class="form__label">
+                                    <input name="radio" type="radio"  checked="checked" value="1" class="form__check check">
+                                    <span class="form__check-pseudo check-pseudo check-pseudo--radius"> 
+                                        <img class="form__icon" src="/img/authorizepage/form/man.svg" alt="man">
+                                        <span class="form__text">Мужчина</span>
+                                    </span>
+                                </label>
+                                <label class="form__label">
+                                    <input name="radio" type="radio" class="form__check check">
+                                    <span class="form__check-pseudo check-pseudo check-pseudo--radius">
+                                        <img class="form__icon" src="/img/authorizepage/form/woman.svg" alt="woman">
+                                        <span class="form__text">Женщина</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form__fieldset form__fieldset--bottom">
+                            <div class="form__title">Меня зовут</div>
+                            <input type="text" name="text" required placeholder="Как вас зовут?" class="form__input form__input--width">
+                        </fieldset>
+                        <div class="form__wrap-select">
+                            <div class="form__title">Родился</div>
+                            <div class="form__select-flex">
+                                <select class="form__select">
+                                    <option>День</option>
+                                    <option>Пункт 2</option>
+                                    <option>Пункт 2</option>
+                                </select>
+                                <select class="form__select">
+                                    <option>Месяц</option>
+                                    <option>Пункт 2</option>
+                                    <option>Пункт 2</option>
+                                </select>
+                                <select class="form__select">
+                                    <option>Год</option>
+                                    <option>Пункт 2</option>
+                                    <option>Пункт 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="form__btn-big btn btn--brand"> Продолжить </button>
+                        <a href="#" class="box__link-account">У меня уже есть аккаунт</a>
+                    </form>
+                </div>
+                <div class="box__item box__item--height">
+                    <h4 class="box__title title title--blue box__title--width">Создание профиля
+                    </h4>
+                    <div class="box__subtitle">это последний шаг!
+                    </div>
+                    <form action="send.php" method="post" class="box__form form">
+                        <div class="form__wrap-file">
+                            <div class="form__group">
+                                <input type="file" name="file" id="file" class="form__file">
+                                <label for="file" class="form__file-btn btn btn-tertiary js-labelFile">
+                                    <i class="form___wrap-btn">
+                                        <img class="form___arrowup" src="/img/authorizepage/form/arrowup.svg" alt="arrowup">
+                                        <i class="form___text-up js-fileName">Выбрать</i>
+                                    </i>
+                                    <i class="form__subtitle-btn js-fileName">jpg, png не более 10мб</i>
+                                </label>
+                            </div>
+                            <div class="form__wrap-text">
+                                <div class="form__title-file">Загрузите фотографию профиля</div>
+                                <div class="form__subtitle-file">условие 1</div>
+                                <div class="form__subtitle-file">условие 2</div>
+                                <div class="form__subtitle-file">условие 3</div>
+                            </div>
+                        </div>
+                        <div class="form__wrap-marker">
+                            <input type="text" name="text" required placeholder="Укажите свое местоположение" class="form__input form__input--marker">
+                            <img class="form__marker" src="/img/authorizepage/form/marker.svg" alt="marker">
+                        </div>
+                        <input type="password" name="password" required placeholder="Создайте пароль" class="form__input form__input--password-new">
+                        <div class="form__symbol">не менее 8 символов и спец. знаки</div>
+                        <button type="submit"  class="form__btn-file btn btn--brand"> Завершить и войти в Метинс </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="dating__bottom" data-aos="fade-up">
+            <div class="dating__container-bottom container" >
+                <div class="dating__wrap dating__wrap--height" >
+                    <h5 class="dating__title-circl title title--blue-xs dating__title-circl-bottom ">Знакомства в событиях</h5>
+                    <p class="dating__subtitle subtitle subtitle--grey">Посещайте события своего города вместе с другими людьми. 
+                    </p>
+                    <p class="dating__subtitle-two subtitle subtitle--grey">
+                        Знакомься с людьми – повсюду!
+                    </p>
+                </div>
+                <div class="dating__wrap-img">
+                    <img class="dating__img" src="/img/authorizepage/dating/people.jpg" alt="">
+                </div>
+                <div class="dating__title-bottom title title--big">СОБЫТИЕ</div>
+            </div>
+        </div>
+    </div>
+    <div class="slider">
+        <div class="slider__container container" >
+            <h6 class="slider__title-blue title title--blue" data-aos="fade-up">Много ярких событий в твоем городе</h6>
+            <div class="slider__swiper swiper " data-aos="fade-up" >
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                  <!-- Slides -->
+                  <div class="swiper-slide">
+                      <img class="swiper-slide__img" src="/img/authorizepage/slider/theatre.jpg" alt="theatre">
+                     <p class="swiper-slide__text">  Театральные представления — лучший способ получить удивительные эмоции </p>
+                    </div>
+                  <div class="swiper-slide">
+                      <img class="swiper-slide__img" src="/img/authorizepage/slider/museum.jpg" alt="museum">
+                      <p class="swiper-slide__text">  Театральные представления — лучший способ получить удивительные эмоции </p>
+                    </div>
+                  <div class="swiper-slide">
+                      <img class="swiper-slide__img" src="/img/authorizepage/slider/concert.jpg" alt="concert">
+                      <p class="swiper-slide__text">  Театральные представления — лучший способ получить удивительные эмоции </p>
+                    </div>
+                </div>
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            <button type="submit" class="slider__btn btn btn--brand"> Хочу попробовать </button>
+        </div>
+    </div>
+    <div class="info" data-aos="fade-up">
+        <div class="info__container">
+            <div class="info__wrap-img">
+                <img src="/img/authorizepage/info/screen-phone.png" alt="screen-phone">
+            </div>
+            <div style="--stepText: 0" class="info__slider-text slider-text one-time">
+                <div class="slider-text__item">
+                    <div class="slider-text__wrap-img">
+                        <img class="slider-text__img" src="/img/authorizepage/info/users.svg" alt="users">
+                        <span class="slider-text__circl-yellow"></span>
+                    </div>
+                    <div class="slider-text__wrap-text">
+                        <div class="slider-text__title-blue title title--blue ">Большая и живая аудитория</div>
+                        <p class="slider-text__subtitle">Наши пользователи — настоящие люди. Мы не используем ботов, фейковых анкет и прочее, чтобы показать ложную активность. Это — не хорошо.
+                        </p>
+                        <p class="slider-text__subtitle">
+                            В Метинс каждый день регистрируется больше чем по 723 человек, а количество встреч превысило за 87 в день!
+                        </p>
+                    </div>
+                </div>
+                <div class="slider-text__item">
+                    <div class="slider-text__wrap-img">
+                        <img class="slider-text__img" src="/img/authorizepage/info/users.svg" alt="users">
+                        <span class="slider-text__circl-yellow"></span>
+                    </div>
+                    <div class="slider-text__wrap-text">
+                        <div class="slider-text__title-blue title title--blue ">Большая и живая аудитория</div>
+                        <p class="slider-text__subtitle">Наши пользователи — настоящие люди. Мы не используем ботов, фейковых анкет и прочее, чтобы показать ложную активность. Это — не хорошо.
+                        </p>
+                        <p class="slider-text__subtitle">
+                            В Метинс каждый день регистрируется больше чем по 723 человек, а количество встреч превысило за 87 в день!
+                        </p>
+                    </div>
+                </div>
+                <div class="slider-text__item">
+                    <div class="slider-text__wrap-img">
+                        <img class="slider-text__img" src="/img/authorizepage/info/users.svg" alt="users">
+                        <span class="slider-text__circl-yellow"></span>
+                    </div>
+                    <div class="slider-text__wrap-text">
+                        <div class="slider-text__title-blue title title--blue ">Более 3758 событий 
+                            в день</div>
+                        <p class="slider-text__subtitle">Именно столько активностей проходит в России каждый день,
+                        </p>
+                        <p class="slider-text__subtitle">
+                            В Метинс каждый день регистрируется больше чем по 723 человек, а количество встреч превысило за 87 в день!
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <h2 class="info__title title title--big">ВОЗМОЖНОСТИ</h2>
+        </div>
+        <div class="info__bottom" >
+            <div class="info__container-bottom">
+                <div class="info__slider-text slider-text" data-aos="fade-up">
+                    <div class="slider-text__item slider-text__item--height">
+                        <div class="slider-text__wrap-img">
+                            <img class="slider-text__img" src="/img/authorizepage/info/sparkels.svg" alt="sparkels">
+                            <span class="slider-text__circl"></span>
+                        </div>
+                        <div class="slider-text__wrap-text">
+                            <div class="slider-text__title-blue title title--blue ">Более 3758 событий 
+                                в день</div>
+                            <p class="slider-text__subtitle">Именно столько активностей проходит в России каждый день,
+                            </p>
+                            <p class="slider-text__subtitle">
+                                Метинс соединяет события и людей.
+                            </p>
+                            <button type="submit" class="slider-text__btn btn btn--brand"> Присоедениться </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="info__wrap-img info__wrap-img-bottom">
+                    <img src="/img/authorizepage/info/screen-phone.png" alt="screen-phone">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer__top">
+            <div class="footer__container" data-aos="fade-up">
+                <div class="footer__title title title--white-xs">
+                    Самое главное для нас
+                </div>
+                <p class="footer__subtitle subtitle subtitle--white">
+                    Мы предлагаем тебе коммуникацию. 
+                    Это место, где ты можешь найти новых друзей, приятелей, а возможно и любовь
+
+                    Выбор за тобой :)
+                </p>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="footer__container-bottom" data-aos="fade-up">
+                <a class="footer__logo logo" href="#">
+                    <img src="/img/authorizepage/footer/logo.svg" class="logo__img"  alt="logo">
+                </a>
+                <nav class="footer__nav nav nav--flex">
+                    <ul class="nav__list nav__list--flex">
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">Карьера</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">О нас</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">F.A.Q</a>
+                        </li>
+                    </ul>
+                    <ul class="nav__list nav__list--flex">
+                        <li class="nav__item nav__item--flex">
+                            <a href="#" class="nav__link">Правовая информация</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">Исследования</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#" class="nav__link">Партнеры</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="footer__social social social--flex">
+                    <div class="social__flex-wrap">
+                        <a href="#" class="social__wrap-img">
+                            <img src="/img/authorizepage/footer/app-store.png" alt="app-store">
+                        </a>
+                        <a href="#" class="footer__wrap-img">
+                            <img src="/img/authorizepage/footer/google.png" alt="google">
+                        </a> 
+                    </div>
+                    <div class="social__flex-wrap">
+                        <a href="#" class="social__wrap-icon"><img src="/img/authorizepage/footer/vk.svg" alt="vk"></a>
+                        <a href="#" class="social__wrap-icon"><img src="/img/authorizepage/footer/telegram.svg" alt="telegram"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,39 +1,27 @@
+using Meetins.Frontend;
 using Meetins.Frontend.Service;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Meetins.Frontend
-{
-    public class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
 
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(@"https://localhost:5001") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(@"https://localhost:5001") });
 
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<ICommonService, CommonService>();
-            builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
-            builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICommonService, CommonService>();
+builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
-            builder.Services.AddScoped<AuthenticationStateProvider, MeetinsAuthStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, MeetinsAuthStateProvider>();
 
 
-            builder.Services.AddOptions();
-            builder.Services.AddAuthorizationCore();
+builder.Services.AddOptions();
+builder.Services.AddAuthorizationCore();
 
-            await builder.Build().RunAsync();
-        }
-    }
-}
+await builder.Build().RunAsync();
