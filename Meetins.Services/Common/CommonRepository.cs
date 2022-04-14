@@ -59,7 +59,7 @@ namespace Meetins.Services.Common
             try
             {
                 var result = _postgreDbContext.Users
-                    .Where(user => user.DateRegister.Day == DateTime.Now.Day && user.DateRegister.Month == DateTime.Now.Month && user.DateRegister.Year == DateTime.Now.Year).Count();
+                    .Where(user => user.DateRegister >= DateTime.Now.AddHours(-24)).Count();
 
                 return result;
             }
