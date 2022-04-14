@@ -545,6 +545,28 @@ namespace Meetins.Services.User
             }
         }
 
+        /// <summary>
+        /// Метод проверит заблокирован ли пользователь
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Статус блокировки пользователя</returns>
+        public async Task<bool> IsBanStatusAsync(Guid userId)
+        {
+            try
+            {
+                var banStatus = await _userRepository.IsBanStatusAsync(userId);
+
+                return banStatus;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                await logger.LogError();
+                throw;
+            }
+        }
+
         #region PRIVATE-методы
         private bool ValidateRefreshToken(string refreshToken)
         {

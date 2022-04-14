@@ -139,6 +139,33 @@ namespace Meetins.Controllers
         }
 
         /// <summary>
+        /// Метод проверит проверит заблокирован ли пользователь
+        /// </summary>
+        /// <returns>Статус блокировки пользователя</returns>
+        [HttpGet]
+        [Route("check-ban-status")]
+        public async Task<ActionResult<bool>> IsBanStatusAsync()
+        {
+            try
+            {
+                string rawUserId = HttpContext.User.FindFirst("userId").Value;
+
+                if (!Guid.TryParse(rawUserId, out Guid userId))
+                {
+                    return Unauthorized();
+                }
+
+                var banStatus = await _userService.IsBanStatusAsync(userId);
+
+                return Ok(banStatus);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        /// <summary>
         /// Метод удалит все рефреш токены пользователя и выйдет из системы.
         /// </summary>
         /// <returns>Статус удаления.</returns>
@@ -217,6 +244,8 @@ namespace Meetins.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        
     }
 }
 

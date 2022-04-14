@@ -152,5 +152,12 @@ namespace Meetins.Abstractions.Repositories
         /// <param name="code">Код.</param>
         /// <returns>Статус операции.</returns>
         Task<bool> ConfirmMailAsync(Guid userId, string code);
+
+        /// <summary>
+        /// Метод проверит заблокирован ли пользователь
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Статус бана пользователя</returns>
+        Task<bool> IsBanStatusAsync(Guid userId);
     }
 }

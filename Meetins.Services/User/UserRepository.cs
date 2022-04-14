@@ -510,6 +510,39 @@ namespace Meetins.Services.User
         }
 
         /// <summary>
+        /// Метод проверит заблокирован ли пользователь
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Статус блокировки пользователя</returns>
+        public async Task<bool> IsBanStatusAsync(Guid userId)
+        {
+            try
+            {
+                var user = await GetUserByIdAsync(userId);
+
+                if (user is null)
+                {
+                    throw new ArgumentException($"Пользователь с ID {userId} не найден.", nameof(userId));
+                }
+
+                if (user.LockoutEnabled)
+                {
+                    return true;
+                }
+
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                await logger.LogError();
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Метод сохранит код в БД.
         /// </summary>
         /// <param name="userId">Идентификатор пользователя.</param>
