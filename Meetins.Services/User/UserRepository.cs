@@ -526,22 +526,11 @@ namespace Meetins.Services.User
                     throw new ArgumentException($"Пользователь с ID {userId} не найден.", nameof(userId));
                 }
 
-                if (user.LockoutEnabled)
+                return new BlockUserOutput
                 {
-                    return new BlockUserOutput
-                    {
-                        LockoutEnabled = true,
-                        LockoutEnd = user.LockoutEnd.Value
-                    };
-                }
-                else
-                {
-                    return new BlockUserOutput
-                    {
-                        LockoutEnabled = false,
-                        LockoutEnd = user.LockoutEnd.Value
-                    };
-                }
+                    LockoutEnabled = user.LockoutEnabled,
+                    LockoutEnd = user.LockoutEnd.Value
+                };
             }
             catch (Exception e)
             {
