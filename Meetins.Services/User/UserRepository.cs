@@ -515,7 +515,7 @@ namespace Meetins.Services.User
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Статус блокировки пользователя</returns>
-        public async Task<BlockUserOutput> IsLockoutStatusAsync(Guid userId)
+        public async Task<BlockUserOutput> GetUserLockoutStatusAsync(Guid userId)
         {
             try
             {
