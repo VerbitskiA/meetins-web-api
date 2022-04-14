@@ -147,7 +147,7 @@ namespace Meetins.Abstractions.Services
         /// Метод проверит заблокирован ли пользователь
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Статус бана пользователя</returns>
-        Task<bool> IsBanStatusAsync(Guid userId);
+        /// <returns>Статус блокировки пользователя</returns>
+        Task<BlockUserOutput> IsLockoutStatusAsync(Guid userId);
     }
 }

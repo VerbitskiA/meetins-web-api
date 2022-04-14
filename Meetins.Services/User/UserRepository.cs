@@ -2,6 +2,7 @@
 using Meetins.Core.Data;
 using Meetins.Core.Logger;
 using Meetins.Models.Entities;
+using Meetins.Models.User.Output;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -514,7 +515,7 @@ namespace Meetins.Services.User
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Статус блокировки пользователя</returns>
-        public async Task<bool> IsBanStatusAsync(Guid userId)
+        public async Task<BlockUserOutput> IsLockoutStatusAsync(Guid userId)
         {
             try
             {
@@ -527,11 +528,20 @@ namespace Meetins.Services.User
 
                 if (user.LockoutEnabled)
                 {
-                    return true;
+                    return new BlockUserOutput
+                    {
+                        LockoutEnabled = true,
+                        LockoutEnd = user.LockoutEnd.ToString()
+                    };
                 }
-
-                return false;
-
+                else
+                {
+                    return new BlockUserOutput
+                    {
+                        LockoutEnabled = false,
+                        LockoutEnd = user.LockoutEnd.ToString()
+                    };
+                }
             }
             catch (Exception e)
             {

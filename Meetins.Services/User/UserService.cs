@@ -550,13 +550,13 @@ namespace Meetins.Services.User
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Статус блокировки пользователя</returns>
-        public async Task<bool> IsBanStatusAsync(Guid userId)
+        public async Task<BlockUserOutput> IsLockoutStatusAsync(Guid userId)
         {
             try
             {
-                var banStatus = await _userRepository.IsBanStatusAsync(userId);
+                var LockoutStatus = await _userRepository.IsLockoutStatusAsync(userId);
 
-                return banStatus;
+                return LockoutStatus;
             }
             catch (Exception e)
             {
