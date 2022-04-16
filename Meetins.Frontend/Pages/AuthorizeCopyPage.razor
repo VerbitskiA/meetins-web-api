@@ -1,18 +1,21 @@
 ﻿@layout EmptyLayout
+@inject IUserService UserService
+@inject ICommonService CommonService
+@inject NavigationManager NavigationManager
 
 <div class="container-main-page">
-    <div class="">
-        <h3 class="text text-main">
+    <div class="container-element-block @_cssMainPage">
+        <h3 class="text text-48 text-padding-10">
             Войдите, чтобы
             <br />
             попробовать
         </h3>
-        <form class="box__form form">
-            <input type="email" placeholder="Введите ваш e-mail адрес" class="text text-mini form-input" >
-            <button type="submit" class="btn" > Далее </button>
-        </form>
-        <div class="">
-            <span class="text text-mini text-left text-center">Войти с помощь:</span>
+        <div class="container-input">
+            <input type="email" placeholder="Введите ваш e-mail адрес" class="text text-13 form-input" @bind-value="@_loginData.Email" >
+            <button type="submit"  class="container-element-block btn btn-accept" @onclick="@OnPagePassword"> Далее </button>
+        </div>
+        <div class ="container-element-inline">
+            <div class="text text-13 text-left">Войти с помощь:</div>
             <a href="#" class="social-link">
                 <img src="/img/authorizepage/dating/vk.svg" alt="vk" class="social-icon"></a>
             <a href="#" class="social-link">
@@ -20,112 +23,120 @@
             <a href="#" class="social-link">
                 <img src="/img/authorizepage/dating/telegram.svg" alt="telegram" class="social-icon"></a>
         </div>
+        <div>
+            <button class="btn btn-registation-start text text-19" @onclick="@OnCreatedProfileStart"> Регистрация Метинс </button>
+        </div>
     </div>
 </div>
-<div class="dating__box box">
-            
-        <hr />
-        <div class="box__item collapse">
-            <h4 class="box__title title title--blue box__title--bottom ">Вход в аккаунт 
+<div class="container-main-page">
+        <div class="@_cssPasswordPage">
+            <h4 class="text text-48 text-padding-10">
+                Вход в аккаунт 
+                <br/>
                 Метинс
             </h4>
-            <a class="box__btn btn btn--transporant" href="#">
-                <img class="box__arrow"  src="/img/authorizepage/box/arrow.svg" alt="arrow">
-                <span class="box__text">Назад</span>
+            <a class="text-undecoration container-back" @onclick="OnMainPage" style="cursor: pointer;">
+                <img class="arrow-left"  src="/img/authorizepage/box/arrow.svg" alt="arrow">
+                <span class="text text-13 text-padding-10 text-undecoration">Назад</span>
             </a>
-            <form action="send.php" method="post" class="box__form form form--bottom">
-                <input type="password" name="password" required placeholder="Введите пароль" class="form__input">
-                <button type="submit" class="form__btn btn btn--brand"> Далее </button>
-            </form>
-            <a href="#" class="box__link-password">Забыли пароль?</a>
-        </div>
-        <hr />
-        <div class="box__item collapse">
-            <h4 class="box__title title title--blue box__title--width">Создание профиля
-            </h4>
-            <div class="box__subtitle">Пройдите быструю регистрацию
+            <div class="container-input">
+                <input type="password" placeholder="Введите пароль" class="text text-13 form-input" @bind-value="_loginData.Password">
+                <button type="submit" class="btn btn-accept" @onclick="@LoginAsync"> Далее </button>
             </div>
-            <form action="send.php" method="post" class="box__form form form--column">
-                <fieldset class="form__fieldset">
-                    <div class="form__title">Я</div>
-                    <div class="form__wrap-flex">
-                        <label class="form__label">
-                            <input name="radio" type="radio"  checked="checked" value="1" class="form__check check">
-                            <span class="form__check-pseudo check-pseudo check-pseudo--radius"> 
-                                <img class="form__icon" src="/img/authorizepage/form/man.svg" alt="man">
-                                <span class="form__text">Мужчина</span>
+            <a href="#" class="container-change-password text text-13 text-undecoration">Забыли пароль?</a>
+        </div>
+</div>
+<div class="container-main-page">
+        <div class="@_cssCreatedProfileStart">
+            <h4 class="text text-48 text-padding-10">Создание профиля
+            </h4>
+            <div class="text text-24 text-padding-10">Пройдите быструю регистрацию
+            </div>
+            <EditForm Model="@_registerData" >
+                <div class="container-element-inline container-profile-element-row">
+                    <div class="text text-18 text-vertical-center">Я</div>
+                    <div class="container-element-inline container-right">
+                        <label class="form-input-radio ">
+                            <input name="radio" type="radio" class="input-radio">
+                            <span class="container-element-inline container-input-radio"> 
+                                <img class="input-radio-icon" src="/img/authorizepage/form/man.svg" alt="man">
+                                <span class="text text-16 text-margin-8">Мужчина</span>
                             </span>
                         </label>
-                        <label class="form__label">
-                            <input name="radio" type="radio" class="form__check check">
-                            <span class="form__check-pseudo check-pseudo check-pseudo--radius">
-                                <img class="form__icon" src="/img/authorizepage/form/woman.svg" alt="woman">
-                                <span class="form__text">Женщина</span>
+                        <label class="form-input-radio ">
+                            <input name="radio" type="radio" class="input-radio">
+                            <span class="container-element-inline container-input-radio"> 
+                                <img class="input-radio-icon" src="/img/authorizepage/form/woman.svg" alt="woman">
+                                <span class="text text-16 text-margin-8">Женщина</span>
                             </span>
                         </label>
                     </div>
-                </fieldset>
-                <fieldset class="form__fieldset form__fieldset--bottom">
-                    <div class="form__title">Меня зовут</div>
-                    <input type="text" name="text" required placeholder="Как вас зовут?" class="form__input form__input--width">
-                </fieldset>
-                <div class="form__wrap-select">
-                    <div class="form__title">Родился</div>
-                    <div class="form__select-flex">
-                        <select class="form__select">
+                </div>
+                <div class="container-element-inline container-right container-profile-element-row">
+                    <div class="text text-18 text-vertical-center">Меня зовут</div>
+                    <input type="text" placeholder="Как вас зовут?" class="container-input-name" @bind-value="@_registerData.Name">
+                </div>
+                <div class="container-element-inline container-profile-element-row">
+                    <div class="text text-18 text-vertical-center">Родился</div>
+                    <div class="container-element-inline container-right">
+                        <select class="form-select-day container-right text text-16">
                             <option>День</option>
-                            <option>Пункт 2</option>
-                            <option>Пункт 2</option>
+                            <option>День</option>
                         </select>
-                        <select class="form__select">
+                        <select class="form-select-month container-right text text-16">
                             <option>Месяц</option>
-                            <option>Пункт 2</option>
-                            <option>Пункт 2</option>
                         </select>
-                        <select class="form__select">
+                        <select class="form-select-year container-right text text-16">
                             <option>Год</option>
-                            <option>Пункт 2</option>
-                            <option>Пункт 2</option>
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="form__btn-big btn btn--brand"> Продолжить </button>
-                <a href="#" class="box__link-account">У меня уже есть аккаунт</a>
-            </form>
+                <div class="container-btn-register">
+                    <button class="btn btn-register text text-18" @onclick="@OnCreatedProfileEnd"> Продолжить </button>
+                </div>
+                <div class=" container-element-inline ">
+                    <a class="text text-24 container-center" @onclick="OnMainPage" style="cursor: pointer;">У меня уже есть аккаунт</a>
+                </div>
+            </EditForm>
         </div>
-        <hr />
-        <div class="box__item box__item--height collapse">
-            <h4 class="box__title title title--blue box__title--width">Создание профиля
-            </h4>
-            <div class="box__subtitle">это последний шаг!
+</div>
+<div class="container-main-page">
+    <div class="@_cssCreatedProfileEnd">
+        <h4 class="text text-48 text-padding-10">Создание профиля
+        </h4>
+        <div class="text text-24 text-padding-10">это последний шаг!
+        </div>
+        <form>
+            <div class="container-element-inline">
+                <div class="container-input-file">
+                    <input type="file" class="form-input-file">
+                    <label for="file" class="container-element-block form-input-file-text">
+                        <i class="container-element-inline">
+                            <img class="" src="/img/authorizepage/form/arrowup.svg" alt="arrowup">
+                            <i class="text text-16 text-margin-8">Выбрать</i>
+                        </i>
+                        <i class="text text-13 text-left">jpg, png не более 
+                            <br />
+                            10мб</i>
+                    </label>
+                </div>
+                <div class="container-conditions container-element-block">
+                    <div class="text text-16 text-left container-conditions-title">Загрузите фотографию профиля</div>
+                    <div class="text text-13 text-left container-condition">условие 1</div>
+                    <div class="text text-13 text-left container-condition">условие 2</div>
+                    <div class="text text-13 text-left container-condition">условие 3</div>
+                </div>
             </div>
-            <form action="send.php" method="post" class="box__form form">
-                <div class="form__wrap-file">
-                    <div class="form__group">
-                        <input type="file" name="file" id="file" class="form__file">
-                        <label for="file" class="form__file-btn btn btn-tertiary js-labelFile">
-                            <i class="form___wrap-btn">
-                                <img class="form___arrowup" src="/img/authorizepage/form/arrowup.svg" alt="arrowup">
-                                <i class="form___text-up js-fileName">Выбрать</i>
-                            </i>
-                            <i class="form__subtitle-btn js-fileName">jpg, png не более 10мб</i>
-                        </label>
-                    </div>
-                    <div class="form__wrap-text">
-                        <div class="form__title-file">Загрузите фотографию профиля</div>
-                        <div class="form__subtitle-file">условие 1</div>
-                        <div class="form__subtitle-file">условие 2</div>
-                        <div class="form__subtitle-file">условие 3</div>
-                    </div>
-                </div>
-                <div class="form__wrap-marker">
-                    <input type="text" name="text" required placeholder="Укажите свое местоположение" class="form__input form__input--marker">
-                    <img class="form__marker" src="/img/authorizepage/form/marker.svg" alt="marker">
-                </div>
-                <input type="password" name="password" required placeholder="Создайте пароль" class="form__input form__input--password-new">
-                <div class="form__symbol">не менее 8 символов и спец. знаки</div>
-                <button type="submit"  class="form__btn-file btn btn--brand"> Завершить и войти в Метинс </button>
-            </form>
-        </div>
-        <hr />
+            <div class="container-element-inline">
+                <input type="text" name="text" required placeholder="Укажите свое местоположение" class="form-input-city">
+                <img class="marker" src="/img/authorizepage/form/marker.svg" alt="marker">
+            </div>
+            <input type="password" name="password" required placeholder="Создайте пароль" class="form-input-password">
+            <div class="text text-13 text-margin-8">не менее 8 символов и спец. знаки</div>
+            <div>
+                <button type="submit"  class="btn btn-registation-end text text-19"> Завершить и войти в Метинс </button>
+            </div>
+            <div class="text text-16 container-policy container-element-inline">Нажимая «Завершить и войти», вы принимаете пользовательское соглашение и политику конфиденциальности.</div>
+        </form>
+    </div>
 </div>

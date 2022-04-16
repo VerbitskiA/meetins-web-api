@@ -22,7 +22,7 @@ namespace Meetins.Frontend.Pages
         }
         private async Task LoginAsync()
         {
-            await UserService.Login(_loginData); _registerData = new RegisterUserInput();
+            await UserService.Login(_loginData); 
             StateHasChanged();
             NavigationManager.NavigateTo("/", true);
         }
