@@ -30,7 +30,7 @@ namespace Meetins.Bot
         {
             await Client.SendTextMessageAsync(
                 chatId: _configuration.GetValue<string>("groupId"),
-                text: $"Число зарегистрированных пользователей за последние сутки: {await _commonService.GetRegistrationsForLast24HoursAsync()}");
+                text: $"Число зарегистрированных пользователей за последние сутки: {await _commonService.GetRegistrationsForLastDayAsync()}");
 
             PushL("Данные отправлены в канал");
         }
