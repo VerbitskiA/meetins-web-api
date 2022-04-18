@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Meetins.Abstractions.Services;
 using Meetins.Models.Reports;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meetins.Contollers
@@ -31,38 +32,251 @@ namespace Meetins.Contollers
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
         public async Task<ActionResult<IEnumerable<ReportOutput>>> GetAllReportsAsync()
         {
-            var result = await _reportsService.GetAllReportsAsync();
+            try
+            {
+                var result = await _reportsService.GetAllReportsAsync();
 
-            return Ok(result);
+                if (result.Count() == 0)
+                {
+                    return BadRequest(new { errorText = "Reports not found" });
+                }
+
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+            
         }
 
         /// <summary>
         /// Получение обращения по Id.
         /// </summary>
-        /// <param name="reportId"> Идентификатор обращения. </param>
+        /// <param name="report"> Идентификатор обращения. </param>
         /// <returns> Обращение. </returns>
         [HttpPost]
         [Route("by-id")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
-        public async Task<ActionResult<IEnumerable<ReportOutput>>> GetReportByReportId([FromBody] ReportInput reportId)
+        public async Task<ActionResult<ReportOutput>> GetReportByReportIdAsync([FromBody] ReportByIdInput report)
         {
-            if (reportId.ReportId.Equals(Guid.Empty))
+            if (report.ReportId.Equals(Guid.Empty))
             {
                 return BadRequest(new { errorText = "Incorrect request body." });
             }
 
             try
             {
-                var result = await _reportsService.GetReportByReportId(reportId.ReportId);
+                var result = await _reportsService.GetReportByReportIdAsync(report.ReportId);
 
-                if (result.Count() == 0) 
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Получение всех обращений от пользователя.
+        /// </summary>
+        /// <param name="userId"> Идентификатор пользователя. </param>
+        /// <returns> Список обращений. </returns>
+        [HttpPost]
+        [Route("from-user")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
+        public async Task<ActionResult<IEnumerable<ReportOutput>>> GetReportsByUserIdAsync([FromBody] GetReportsByUserIdInput user)
+        {
+            if (user.UserId.Equals(Guid.Empty))
+            {
+                return BadRequest(new { errorText = "Incorrect request body." });
+            }
+            
+            try
+            {
+                var result = await _reportsService.GetReportsByUserIdAsync(user.UserId);
+
+                if (result.Count() == 0)
                 {
-                    return BadRequest(new { errorText = "Report with this Id does not exist." });
+                    return BadRequest(new { errorText = "Reports from this UserId not found." });
                 }
 
                 return Ok(result);
             }
             catch(Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Получение открытых обращений.
+        /// </summary>
+        /// <returns> Список обращений. </returns>
+        [HttpGet]
+        [Route("get-opened")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
+        public async Task<ActionResult<IEnumerable<ReportOutput>>> GetOpenReportsAsync()
+        {
+            try
+            {
+                var result = await _reportsService.GetOpenReportsAsync();
+
+                if (result.Count() == 0)
+                {
+                    return BadRequest(new { errorText = "Open reports not found" });
+                }
+
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Получение закрытых обращений.
+        /// </summary>
+        /// <returns> Список обращений. </returns>
+        [HttpGet]
+        [Route("get-closed")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
+        public async Task<ActionResult<IEnumerable<ReportOutput>>> GetClosedReportsAsync()
+        {
+            try
+            {
+                var result = await _reportsService.GetClosedReportsAsync();
+
+                if (result.Count() == 0)
+                {
+                    return BadRequest(new { errorText = "Closed reports not found" });
+                }
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Получение списка обращений за период времени.
+        /// </summary>
+        /// <param name="period"> Период времени. </param>
+        /// <returns> Список обращений. </returns>
+        [HttpPost]
+        [Route("period")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
+        public async Task<ActionResult<IEnumerable<ReportOutput>>> GetReportsForPeriodAsync([FromBody] GetReportsForPeriodInput period)
+        {
+            if (period.Equals(Guid.Empty))
+            {
+                return BadRequest(new { errorText = "Incorrect request body." });
+            }
+
+            try
+            {
+                var result = await _reportsService.GetReportsForPeriodAsync(period.StartOfPeriod, period.EndOfPeriod);
+
+                if (result.Count() == 0)
+                {
+                    return BadRequest(new { errorText = "Reports for a given period of time not found" });
+                }
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Создание обращения от пользователя.
+        /// </summary>
+        /// <param name="report"> Обращение. </param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [Route("create-report")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
+        public async Task<ActionResult<bool>> CreateReportAsync([FromBody] CreateReportInput report)
+        {
+            string rawUserId = HttpContext.User.FindFirst("userId").Value;
+
+            if (!Guid.TryParse(rawUserId, out Guid userId))
+            {
+                return Unauthorized();
+            }
+
+            if (report.Equals(Guid.Empty))
+            {
+                return BadRequest(new { errorText = "Incorrect request body." });
+            }
+
+            try
+            {
+                var result = await _reportsService.CreateReportAsync(userId, report.Topic, report.Text);
+
+                return Ok(true);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Закрыть обращение.
+        /// </summary>
+        /// <param name="report"> Идентификатор обращения. </param>
+        /// <returns> True, если обращение закрыто. </returns>
+        [HttpPost]
+        [Route("close")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
+        public async Task<ActionResult<bool>> MakeReportClosedAsync([FromBody] ReportByIdInput report)
+        {
+            if (report.ReportId.Equals(Guid.Empty))
+            {
+                return BadRequest(new { errorText = "Incorrect request body." });
+            }
+
+            try
+            {
+                var result = await _reportsService.MakeReportClosedAsync(report.ReportId);
+
+                return Ok(true);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// Открыть обращение.
+        /// </summary>
+        /// <param name="report"> Идентификатор обращения. </param>
+        /// <returns> True, если обращение открыто. </returns>
+        [HttpPost]
+        [Route("open")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
+        public async Task<ActionResult<bool>> MakeReportOpenAsync([FromBody] ReportByIdInput report)
+        {
+            if (report.ReportId.Equals(Guid.Empty))
+            {
+                return BadRequest(new { errorText = "Incorrect request body." });
+            }
+
+            try
+            {
+                var result = await _reportsService.MakeReportOpenAsync(report.ReportId);
+
+                return Ok(true);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new { message = e.Message });
             }

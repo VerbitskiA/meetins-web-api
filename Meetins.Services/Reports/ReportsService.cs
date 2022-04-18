@@ -25,9 +25,16 @@ namespace Meetins.Services.Reports
         /// <returns> Список всех обращений. </returns>
         public async Task<IEnumerable<ReportOutput>> GetAllReportsAsync()
         {
-            var result = await _reportRepository.GetAllReportsAsync();
+            try
+            {
+                var result = await _reportRepository.GetAllReportsAsync();
 
-            return result;
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            } 
         }
 
         /// <summary>
@@ -35,11 +42,11 @@ namespace Meetins.Services.Reports
         /// </summary>
         /// <param name="reportId"> Идентификатор обращения. </param>
         /// <returns> Обращение. </returns>
-        public async Task<IEnumerable<ReportOutput>> GetReportByReportId(Guid reportId)
+        public async Task<ReportOutput> GetReportByReportIdAsync(Guid reportId)
         {
             try
             {
-                var result = await _reportRepository.GetReportByReportId(reportId);
+                var result = await _reportRepository.GetReportByReportIdAsync(reportId);
 
                 return result;
             }
@@ -47,6 +54,140 @@ namespace Meetins.Services.Reports
             {
                 throw;
             } 
+        }
+
+        /// <summary>
+        /// Получение всех обращений от пользователя.
+        /// </summary>
+        /// <param name="userId"> Идентификатор пользователя. </param>
+        /// <returns> Список обращений. </returns>
+        public async Task<IEnumerable<ReportOutput>> GetReportsByUserIdAsync(Guid userId)
+        {
+            try
+            {
+                var result = await _reportRepository.GetReportsByUserIdAsync(userId);
+
+                return result;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Получение открытых обращений.
+        /// </summary>
+        /// <returns> Список обращений. </returns>
+        public async Task<IEnumerable<ReportOutput>> GetOpenReportsAsync()
+        {
+            try
+            {
+                var result = await _reportRepository.GetOpenReportsAsync();
+
+                return result;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Получение закрытых обращений.
+        /// </summary>
+        /// <returns> Список обращений. </returns>
+        public async Task<IEnumerable<ReportOutput>> GetClosedReportsAsync()
+        {
+            try
+            {
+                var result = await _reportRepository.GetClosedReportsAsync();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Получение списка обращений за период времени.
+        /// </summary>
+        /// <param name="startOfPeriod"> Начало периода. </param>
+        /// <param name="endOfPeriod"> Конец периода.</param>
+        /// <returns> Список обращений. </returns>
+        public async Task<IEnumerable<ReportOutput>> GetReportsForPeriodAsync(DateTime startOfPeriod, DateTime endOfPeriod)
+        {
+            try
+            {
+                var result = await _reportRepository.GetReportsForPeriodAsync(startOfPeriod, endOfPeriod);
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Создание обращения от пользователя.
+        /// </summary>
+        /// <param name="userId"> Идентификатор пользователя. </param>
+        /// <param name="topic"> Тема обращения. </param>
+        /// <param name="text">  Текст обращения. </param>
+        /// <returns> True, если обращение отправлено. </returns>
+        public async Task<bool> CreateReportAsync(Guid userId, string topic, string text)
+        {
+            try
+            {
+                var result = await _reportRepository.CreateReportAsync(userId, topic, text);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Закрыть обращение.
+        /// </summary>
+        /// <param name="reportId"> Идентификатор обращения. </param>
+        /// <returns> True, если обращение закрыто. </returns>
+        public async Task<bool> MakeReportClosedAsync(Guid reportId)
+        {
+            try
+            {
+                var result = await _reportRepository.MakeReportClosedAsync(reportId);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Открыть обращение.
+        /// </summary>
+        /// <param name="reportId"> Идентификатор обращения. </param>
+        /// <returns> True, если обращение открыто. </returns>
+        public async Task<bool> MakeReportOpenAsync(Guid reportId)
+        {
+            try
+            {
+                var result = await _reportRepository.MakeReportOpenAsync(reportId);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

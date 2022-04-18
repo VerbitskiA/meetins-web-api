@@ -3,9 +3,9 @@
 namespace Meetins.Models.Reports
 {
     /// <summary>
-    /// Класс входной модели обращения.
+    /// Класс входной модели обращения по идентификатору обращения.
     /// </summary>
-    public class ReportInput
+    public class ReportByIdInput
     {
         /// <summary>
         /// Идентификатор обращения.
