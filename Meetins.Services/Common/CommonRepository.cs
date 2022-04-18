@@ -76,7 +76,7 @@ namespace Meetins.Services.Common
         /// Метод получает число зарегистрированных пользователей за последние сутки
         /// </summary>
         /// <returns>Число зарегистрированных пользователей</returns>
-        public async Task<int> GetRegistrationsForLast24HoursAsync()
+        public async Task<int> GetRegistrationsForLastDayAsync()
         {
             try
             {

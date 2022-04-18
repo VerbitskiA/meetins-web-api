@@ -27,6 +27,6 @@ namespace Meetins.Abstractions.Repositories
         /// Метод получает число зарегистрированных пользователей за последние сутки
         /// </summary>
         /// <returns>Число зарегистрированных пользователей</returns>
-        Task<int> GetRegistrationsForLast24HoursAsync();
+        Task<int> GetRegistrationsForLastDayAsync();
     }
 }
