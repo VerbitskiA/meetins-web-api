@@ -1,19 +1,64 @@
 ﻿using Meetins.Models.Common;
 using Meetins.Models.User.Input;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace Meetins.Frontend.Pages
 {
-    public partial class AuthorizePage:ComponentBase
+    public partial class AuthorizePage : ComponentBase
     {
+        private DateTime _birthDay { get; set; }
+        private int _daysInMonth { get;set; } 
 
+
+        private Task UpdateBirthDayDay(int day)
+        {
+            DateTime newBirthDay=DateTime.Now;
+            try
+            {
+                newBirthDay = new DateTime(_birthDay.Year, _birthDay.Month, day);
+            }
+            catch
+            {
+                newBirthDay = new DateTime(_birthDay.Year, _birthDay.Month, 1);    
+            }
+            _birthDay = newBirthDay;
+            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year, _birthDay.Month);
+            StateHasChanged();
+            return Task.CompletedTask;
+        }
+        private Task UpdateBirthDayMonth(int month)
+        {
+            DateTime newBirthDay = DateTime.Now;
+            try
+            {
+                newBirthDay = new DateTime(_birthDay.Year, month, _birthDay.Day);
+            }
+            catch
+            {
+                newBirthDay = new DateTime(_birthDay.Year, 1, _birthDay.Day);
+            }
+            _birthDay = newBirthDay;
+            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year, _birthDay.Month);
+            StateHasChanged();
+            return Task.CompletedTask;
+        }
+        private Task UpdateBirthDayYear(int year)
+        {
+            DateTime newBirthDay = DateTime.Now;
+            try
+            {
+                newBirthDay = new DateTime(year, _birthDay.Month, _birthDay.Day);
+            }
+            catch
+            {
+                newBirthDay = new DateTime(DateTime.Now.Year, _birthDay.Month, _birthDay.Day);
+            }
+            _birthDay = newBirthDay;
+            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year, _birthDay.Month);
+            StateHasChanged();
+            return Task.CompletedTask;
+        }
         private bool _isMainPage { get; set; } = true;
         private bool _isPasswordPage { get; set; } = false;
         private bool _isCreatedProfileStart { get; set; } = false;
@@ -23,12 +68,23 @@ namespace Meetins.Frontend.Pages
         private string _cssPasswordPage => _isPasswordPage ? "" : "collapse";
         private string _cssCreatedProfileStart => _isCreatedProfileStart ? "" : "collapse";
         private string _cssCreatedProfileEnd => _isCreatedProfileEnd ? "" : "collapse";
-
         protected override async Task OnInitializedAsync()
         {
+            _birthDay=DateTime.Now;
+            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year,_birthDay.Month);
             _loginData = new LoginInput();
             _cities = await CommonService.GetAllCities();
             StateHasChanged();
+        }
+        private bool _isFocusManButton { get; set; } = false;
+        private bool _isFocusWomanButton { get; set; } = false;
+        private string _cssFocusManButton => _isFocusManButton ? "form-input-radio-focus" : "form-input-radio";
+        private string _cssFocusWomanButton => _isFocusWomanButton ? "form-input-radio-focus" : "form-input-radio";
+        private string IsChecedRadioButton(string check)
+        {
+            if (string.IsNullOrEmpty(_registerData.Gender)) return "form-input-radio";
+            if (_registerData.Gender.Equals(check)) return "form-input-radio-checked";
+            return "form-input-radio";
         }
 
         private void OnPagePassword()

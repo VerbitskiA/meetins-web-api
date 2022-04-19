@@ -10,10 +10,10 @@
             <br />
             попробовать
         </h3>
-        <div class="container-input">
-            <input type="email" placeholder="Введите ваш e-mail адрес" class="text text-13 form-input" @bind-value="@_loginData.Email" >
-            <button type="submit"  class="container-element-block btn btn-accept" @onclick="@OnPagePassword"> Далее </button>
-        </div>
+        <EditForm Model="_loginData" class="container-input">
+             <InputText @bind-Value="_loginData.Email" class="text text-13 form-input" placeholder="Введите ваш e-mail адрес"/>
+             <button type="submit"  class="container-element-block btn btn-accept" @onclick="@OnPagePassword"> Далее </button>
+        </EditForm>
         <div class ="container-element-inline">
             <div class="text text-13 text-left">Войти с помощь:</div>
             <a href="#" class="social-link">
@@ -39,10 +39,10 @@
                 <img class="arrow-left"  src="/img/authorizepage/box/arrow.svg" alt="arrow">
                 <span class="text text-13 text-padding-10 text-undecoration">Назад</span>
             </a>
-            <div class="container-input">
-                <input type="password" placeholder="Введите пароль" class="text text-13 form-input" @bind-value="_loginData.Password">
-                <button type="submit" class="btn btn-accept" @onclick="@LoginAsync"> Далее </button>
-            </div>
+            <EditForm Model="_loginData" class="container-input">
+                 <InputText @bind-Value="_loginData.Password" type="password" class="text text-13 form-input" placeholder="Введите пароль"/>
+                 <button type="submit"  class="container-element-block btn btn-accept" @onclick="@LoginAsync"> Далее </button>
+            </EditForm>
             <a href="#" class="container-change-password text text-13 text-undecoration">Забыли пароль?</a>
         </div>
 </div>
@@ -52,43 +52,63 @@
             </h4>
             <div class="text text-24 text-padding-10">Пройдите быструю регистрацию
             </div>
-            <EditForm Model="@_registerData" >
+            <EditForm Model="_registerData" >
                 <div class="container-element-inline container-profile-element-row">
                     <div class="text text-18 text-vertical-center">Я</div>
                     <div class="container-element-inline container-right">
-                        <label class="form-input-radio ">
-                            <input name="radio" type="radio" class="input-radio">
-                            <span class="container-element-inline container-input-radio"> 
-                                <img class="input-radio-icon" src="/img/authorizepage/form/man.svg" alt="man">
-                                <span class="text text-16 text-margin-8">Мужчина</span>
-                            </span>
-                        </label>
-                        <label class="form-input-radio ">
-                            <input name="radio" type="radio" class="input-radio">
-                            <span class="container-element-inline container-input-radio"> 
-                                <img class="input-radio-icon" src="/img/authorizepage/form/woman.svg" alt="woman">
-                                <span class="text text-16 text-margin-8">Женщина</span>
-                            </span>
-                        </label>
+                        <InputRadioGroup @bind-Value="@_registerData.Gender"class="container-element-inline form-input-radio">
+                            <label class="container-element-inline @IsChecedRadioButton("Men")" for="radio_men"> 
+                                <InputRadio Value="@("Men")" class="input-radio" id="radio_men"/>
+                                <img class="input-radio-icon" src="img/authorizepage/form/man.svg" alt="man">
+                                <span class="text text-16 text-margin-8 ">Мужчина</span>
+                            </label>
+                            <label class="container-element-inline @IsChecedRadioButton("Women")" for="radio_women"> 
+                                <InputRadio Value="@("Women")" class="input-radio" id="radio_women"/>
+                                <img class="input-radio-icon" src="img/authorizepage/form/woman.svg" alt="woman">
+                                <span class="text text-16 text-margin-8 ">Женщина</span>
+                            </label>
+                        </InputRadioGroup>
                     </div>
                 </div>
                 <div class="container-element-inline container-right container-profile-element-row">
                     <div class="text text-18 text-vertical-center">Меня зовут</div>
-                    <input type="text" placeholder="Как вас зовут?" class="container-input-name" @bind-value="@_registerData.Name">
+                    <InputText type="text" placeholder="Как вас зовут?" class="container-input-name" @bind-Value="@_registerData.Name"/>
                 </div>
                 <div class="container-element-inline container-profile-element-row">
                     <div class="text text-18 text-vertical-center">Родился</div>
                     <div class="container-element-inline container-right">
-                        <select class="form-select-day container-right text text-16">
-                            <option>День</option>
-                            <option>День</option>
-                        </select>
-                        <select class="form-select-month container-right text text-16">
-                            <option>Месяц</option>
-                        </select>
-                        <select class="form-select-year container-right text text-16">
-                            <option>Год</option>
-                        </select>
+                        <InputSelect Value="@_birthDay.Day"
+                                     ValueExpression="@(()=>_birthDay.Day)"
+                                     ValueChanged="@((int day)=>UpdateBirthDayDay(day))" class="form-select-day container-right text text-16">
+                        @for(var i =1;i<=_daysInMonth;i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                        </InputSelect>
+                        <InputSelect Value="@_birthDay.Month"
+                                     ValueExpression="()=>_birthDay.Month"
+                                     ValueChanged="((int month)=>UpdateBirthDayMonth(month))" class="form-select-month container-right text text-16">
+                            <option value="1">Января</option>
+                            <option value="2">Февраля</option>
+                            <option value="3">Марта</option>
+                            <option value="4">Апреля</option>
+                            <option value="5">Мая</option>
+                            <option value="6">Июня</option>
+                            <option value="7">Июля</option>
+                            <option value="8">Августа</option>
+                            <option value="9">Сентября</option>
+                            <option value="10">Октября</option>
+                            <option value="11">Ноября</option>
+                            <option value="12">Декабря</option>
+                        </InputSelect>
+                        <InputSelect Value="@_birthDay.Year"
+                                     ValueExpression="()=>_birthDay.Year"
+                                     ValueChanged="((int year)=>UpdateBirthDayYear(year))" class="form-select-year container-right text text-16">
+                        @for(var i =1900;i<=DateTime.Now.Year;i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                        </InputSelect>                        
                     </div>
                 </div>
                 <div class="container-btn-register">

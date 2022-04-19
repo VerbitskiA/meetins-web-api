@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meetins.Communication", "Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meetins.Tests", "Meetins.Tests\Meetins.Tests.csproj", "{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meetins.Frontend", "Meetins.Frontend\Meetins.Frontend.csproj", "{A714008D-E2B6-447A-AF90-012C53BEB9EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meetins.Frontend", "Meetins.Frontend\Meetins.Frontend.csproj", "{8CE9A20A-AC9A-4C03-BBF3-2EFB9529F0E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +62,10 @@ Global
 		{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B55F348E-5A5A-4D5F-8B93-76B5AA340EE9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A714008D-E2B6-447A-AF90-012C53BEB9EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A714008D-E2B6-447A-AF90-012C53BEB9EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A714008D-E2B6-447A-AF90-012C53BEB9EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A714008D-E2B6-447A-AF90-012C53BEB9EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CE9A20A-AC9A-4C03-BBF3-2EFB9529F0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE9A20A-AC9A-4C03-BBF3-2EFB9529F0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE9A20A-AC9A-4C03-BBF3-2EFB9529F0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE9A20A-AC9A-4C03-BBF3-2EFB9529F0E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
