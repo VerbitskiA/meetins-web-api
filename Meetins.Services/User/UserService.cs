@@ -136,6 +136,8 @@ namespace Meetins.Services.User
                     profile = user.ToProfileOutput()
                 };
 
+                loginOutput.profile.City = await _commonService.GetCityNameAsync(user.CityId);
+
                 return loginOutput;
             }
             catch (Exception e)
@@ -453,29 +455,6 @@ namespace Meetins.Services.User
             try
             {
                 var user = await _userRepository.UpdateBirthDateAsync(userId, birthDate);
-
-                return user;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
-                await logger.LogError();
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Метод обновит город пользователя.
-        /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <param name="cityId">Идентификатор нового города.</param>
-        /// <returns>Данные пользователя.</returns>
-        public async Task<UserEntity> UpdateCityIdAsync(Guid userId, Guid cityId)
-        {
-            try
-            {
-                var user = await _userRepository.UpdateCityIdAsync(userId, cityId);
 
                 return user;
             }
