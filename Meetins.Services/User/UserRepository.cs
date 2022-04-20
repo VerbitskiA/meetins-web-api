@@ -511,10 +511,10 @@ namespace Meetins.Services.User
         }
 
         /// <summary>
-        /// Метод проверит заблокирован ли пользователь
+        /// Метод проверит заблокирован ли пользователь / дату разблокировки пользователя
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Статус блокировки пользователя</returns>
+        /// <returns>Статус блокировки / дату разблокировки пользователя</returns>
         public async Task<LockoutStatusOutput> GetUserLockoutStatusAsync(Guid userId)
         {
             try

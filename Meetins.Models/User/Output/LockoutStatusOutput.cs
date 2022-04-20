@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Meetins.Models.User.Output
+﻿namespace Meetins.Models.User.Output
 {
+    /// <summary>
+    /// Модель статуса блокировки пользователя
+    /// </summary>
     public class LockoutStatusOutput
     {
+        /// <summary>
+        /// Заблокирован ли пользователь
+        /// </summary>
         public bool LockoutEnabled { get; set; }
+
+        /// <summary>
+        /// Дата конца блокировки пользователя
+        /// </summary>
         public string LockoutEnd { get; set; }
     }
 }

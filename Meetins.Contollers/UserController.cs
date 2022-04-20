@@ -139,9 +139,9 @@ namespace Meetins.Controllers
         }
 
         /// <summary>
-        /// Метод проверит заблокирован ли пользователь
+        /// Метод проверит заблокирован ли пользователь / дату разблокировки пользователя
         /// </summary>
-        /// <returns>Статус блокировки пользователя</returns>
+        /// <returns>Статус блокировки / дату разблокировки пользователя</returns>
         [HttpGet]
         [Route("check-lockout-status")]
         public async Task<ActionResult<LockoutStatusOutput>> GetUserLockoutStatusAsync()
