@@ -231,22 +231,27 @@
     margin-top: 35px;
     z-index: 2;
 }
-.form-input-city {
+::deep .form-input-city {
     padding-left: 20px;
     width: 477px;
     height: 60px;
     border: 2px solid #D4E8FC;
     border-radius: 32px;
     margin-top: 25px;
-    z-index: -1;
+    z-index: 1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
+    ::deep .form-input-city::-ms-expand {
+        display: none;
+    }
 .marker {
     position: absolute;
     top: 43px;
     left: 437px;
     z-index: 2;
 }
-.form-input-password {
+::deep .form-input-password {
     padding-left: 20px;
     width: 477px;
     height: 60px;

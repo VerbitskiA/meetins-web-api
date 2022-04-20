@@ -7,58 +7,54 @@ namespace Meetins.Frontend.Pages
 {
     public partial class AuthorizePage : ComponentBase
     {
-        private DateTime _birthDay { get; set; }
-        private int _daysInMonth { get;set; } 
+        private int _daysInMonth { get; set; }
+        private int _birthDay { 
+            get 
+            {
+                return _registerData.BirthDate.Day;
+            }
+            set
+            {
+                UpdateBirthDay(value, _birthMonth, _birthYear);
+            }
+        } 
+        private int _birthMonth
+        {
+            get
+            {
+                return _registerData.BirthDate.Month;
+            }
+            set
+            {
+                UpdateBirthDay(_birthDay, value, _birthYear);
+            }
+        }
+        private int _birthYear
+        {
+            get
+            {
+                return _registerData.BirthDate.Year;
+            }
+            set
+            {
+                UpdateBirthDay(_birthDay, _birthMonth, value);
+            }
+        }
+        private void UpdateBirthDay(int day,int month, int year)
+        {
+            try
+            {
+                _registerData.BirthDate = new DateTime(year, month, day);
+            }
+            catch
+            {
 
+                _registerData.BirthDate = new DateTime(year, month, 1);
+            }
+            _daysInMonth = DateTime.DaysInMonth(_registerData.BirthDate.Year, _registerData.BirthDate.Month);
+            StateHasChanged();
+        }
 
-        private Task UpdateBirthDayDay(int day)
-        {
-            DateTime newBirthDay=DateTime.Now;
-            try
-            {
-                newBirthDay = new DateTime(_birthDay.Year, _birthDay.Month, day);
-            }
-            catch
-            {
-                newBirthDay = new DateTime(_birthDay.Year, _birthDay.Month, 1);    
-            }
-            _birthDay = newBirthDay;
-            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year, _birthDay.Month);
-            StateHasChanged();
-            return Task.CompletedTask;
-        }
-        private Task UpdateBirthDayMonth(int month)
-        {
-            DateTime newBirthDay = DateTime.Now;
-            try
-            {
-                newBirthDay = new DateTime(_birthDay.Year, month, _birthDay.Day);
-            }
-            catch
-            {
-                newBirthDay = new DateTime(_birthDay.Year, 1, _birthDay.Day);
-            }
-            _birthDay = newBirthDay;
-            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year, _birthDay.Month);
-            StateHasChanged();
-            return Task.CompletedTask;
-        }
-        private Task UpdateBirthDayYear(int year)
-        {
-            DateTime newBirthDay = DateTime.Now;
-            try
-            {
-                newBirthDay = new DateTime(year, _birthDay.Month, _birthDay.Day);
-            }
-            catch
-            {
-                newBirthDay = new DateTime(DateTime.Now.Year, _birthDay.Month, _birthDay.Day);
-            }
-            _birthDay = newBirthDay;
-            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year, _birthDay.Month);
-            StateHasChanged();
-            return Task.CompletedTask;
-        }
         private bool _isMainPage { get; set; } = true;
         private bool _isPasswordPage { get; set; } = false;
         private bool _isCreatedProfileStart { get; set; } = false;
@@ -70,16 +66,19 @@ namespace Meetins.Frontend.Pages
         private string _cssCreatedProfileEnd => _isCreatedProfileEnd ? "" : "collapse";
         protected override async Task OnInitializedAsync()
         {
-            _birthDay=DateTime.Now;
-            _daysInMonth = DateTime.DaysInMonth(_birthDay.Year,_birthDay.Month);
+            _registerData.BirthDate = DateTime.Now;
+            _daysInMonth = DateTime.DaysInMonth(_registerData.BirthDate.Year, _registerData.BirthDate.Month);
+            _birthDay= _registerData.BirthDate.Day;
+            _birthMonth= _registerData.BirthDate.Month;
+            _birthYear= _registerData.BirthDate.Year;
             _loginData = new LoginInput();
             _cities = await CommonService.GetAllCities();
+            _cities = _cities.OrderBy(x => x.CityName).ToList();
             StateHasChanged();
         }
+
         private bool _isFocusManButton { get; set; } = false;
         private bool _isFocusWomanButton { get; set; } = false;
-        private string _cssFocusManButton => _isFocusManButton ? "form-input-radio-focus" : "form-input-radio";
-        private string _cssFocusWomanButton => _isFocusWomanButton ? "form-input-radio-focus" : "form-input-radio";
         private string IsChecedRadioButton(string check)
         {
             if (string.IsNullOrEmpty(_registerData.Gender)) return "form-input-radio";
@@ -132,8 +131,11 @@ namespace Meetins.Frontend.Pages
 
         private async Task RegisterAsync()
         {
+            //Console.WriteLine("Регистрация");
             await UserService.Register(_registerData);
             NavigationManager.NavigateTo("/", true);
         }
+
+
     }
 }

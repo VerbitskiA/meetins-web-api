@@ -74,20 +74,20 @@
                     <div class="text text-18 text-vertical-center">Меня зовут</div>
                     <InputText type="text" placeholder="Как вас зовут?" class="container-input-name" @bind-Value="@_registerData.Name"/>
                 </div>
+                <div class="container-element-inline container-right container-profile-element-row">
+                    <div class="text text-18 text-vertical-center">Email</div>
+                    <InputText type="text" placeholder="Какая почта?" class="container-input-name container-right" @bind-Value="@_registerData.Email"/>
+                </div>
                 <div class="container-element-inline container-profile-element-row">
                     <div class="text text-18 text-vertical-center">Родился</div>
                     <div class="container-element-inline container-right">
-                        <InputSelect Value="@_birthDay.Day"
-                                     ValueExpression="@(()=>_birthDay.Day)"
-                                     ValueChanged="@((int day)=>UpdateBirthDayDay(day))" class="form-select-day container-right text text-16">
+                        <InputSelect @bind-Value="@_birthDay" class="form-select-day container-right text text-16">
                         @for(var i =1;i<=_daysInMonth;i++)
                         {
                             <option value="@i">@i</option>
                         }
                         </InputSelect>
-                        <InputSelect Value="@_birthDay.Month"
-                                     ValueExpression="()=>_birthDay.Month"
-                                     ValueChanged="((int month)=>UpdateBirthDayMonth(month))" class="form-select-month container-right text text-16">
+                        <InputSelect  @bind-Value="@_birthMonth" class="form-select-month container-right text text-16">
                             <option value="1">Января</option>
                             <option value="2">Февраля</option>
                             <option value="3">Марта</option>
@@ -101,9 +101,7 @@
                             <option value="11">Ноября</option>
                             <option value="12">Декабря</option>
                         </InputSelect>
-                        <InputSelect Value="@_birthDay.Year"
-                                     ValueExpression="()=>_birthDay.Year"
-                                     ValueChanged="((int year)=>UpdateBirthDayYear(year))" class="form-select-year container-right text text-16">
+                        <InputSelect  @bind-Value="@_birthYear" class="form-select-year container-right text text-16">
                         @for(var i =1900;i<=DateTime.Now.Year;i++)
                         {
                             <option value="@i">@i</option>
@@ -126,7 +124,7 @@
         </h4>
         <div class="text text-24 text-padding-10">это последний шаг!
         </div>
-        <form>
+        <EditForm Model="_registerData" OnValidSubmit="@RegisterAsync">
             <div class="container-element-inline">
                 <div class="container-input-file">
                     <input type="file" class="form-input-file">
@@ -148,15 +146,21 @@
                 </div>
             </div>
             <div class="container-element-inline">
-                <input type="text" name="text" required placeholder="Укажите свое местоположение" class="form-input-city">
+                <InputSelect  @bind-Value="@_registerData.CityId" class="form-input-city">
+                    <option value="@Guid.NewGuid()" selected="selected">Выберите город</option>
+                    @foreach(var city in _cities)
+                    {
+                        <option value="@city.CityId">@city.CityName</option>
+                    }
+                </InputSelect>
                 <img class="marker" src="/img/authorizepage/form/marker.svg" alt="marker">
             </div>
-            <input type="password" name="password" required placeholder="Создайте пароль" class="form-input-password">
+            <InputText type="password" @bind-Value="@_registerData.Password" placeholder="Создайте пароль" class="form-input-password"/>
             <div class="text text-13 text-margin-8">не менее 8 символов и спец. знаки</div>
             <div>
                 <button type="submit"  class="btn btn-registation-end text text-19"> Завершить и войти в Метинс </button>
             </div>
             <div class="text text-16 container-policy container-element-inline">Нажимая «Завершить и войти», вы принимаете пользовательское соглашение и политику конфиденциальности.</div>
-        </form>
+        </EditForm>
     </div>
 </div>
