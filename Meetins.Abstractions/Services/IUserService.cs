@@ -126,7 +126,7 @@ namespace Meetins.Abstractions.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Статус блокировки пользователя</returns>
-        Task<BlockUserOutput> GetUserLockoutStatusAsync(Guid userId);
+        Task<LockoutStatusOutput> GetUserLockoutStatusAsync(Guid userId);
 
         /// <summary>
         /// Метод удалит аккаунт пользователя.

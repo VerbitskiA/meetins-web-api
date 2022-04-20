@@ -515,7 +515,7 @@ namespace Meetins.Services.User
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Статус блокировки пользователя</returns>
-        public async Task<BlockUserOutput> GetUserLockoutStatusAsync(Guid userId)
+        public async Task<LockoutStatusOutput> GetUserLockoutStatusAsync(Guid userId)
         {
             try
             {
@@ -526,7 +526,7 @@ namespace Meetins.Services.User
                     throw new ArgumentException($"Пользователь с ID {userId} не найден.", nameof(userId));
                 }
 
-                return new BlockUserOutput
+                return new LockoutStatusOutput
                 {
                     LockoutEnabled = user.LockoutEnabled,
                     LockoutEnd = user.LockoutEnd.HasValue ? user.LockoutEnd.Value.ToString() : ""

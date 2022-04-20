@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Meetins.Models.User.Output
 {
-    public class BlockUserOutput
+    public class LockoutStatusOutput
     {
         public bool LockoutEnabled { get; set; }
         public string LockoutEnd { get; set; }

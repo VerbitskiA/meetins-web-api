@@ -144,7 +144,7 @@ namespace Meetins.Controllers
         /// <returns>Статус блокировки пользователя</returns>
         [HttpGet]
         [Route("check-lockout-status")]
-        public async Task<ActionResult<BlockUserOutput>> GetUserLockoutStatusAsync()
+        public async Task<ActionResult<LockoutStatusOutput>> GetUserLockoutStatusAsync()
         {
             try
             {
