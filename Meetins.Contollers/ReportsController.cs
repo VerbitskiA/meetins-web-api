@@ -225,7 +225,7 @@ namespace Meetins.Contollers
             {
                 var result = await _reportsService.CreateReportAsync(userId, report.Topic, report.Text);
 
-                return Ok(true);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -252,7 +252,7 @@ namespace Meetins.Contollers
             {
                 var result = await _reportsService.CloseReportAsync(report.ReportId);
 
-                return Ok(true);
+                return Ok(result);
             }
             catch(Exception e)
             {
@@ -279,7 +279,7 @@ namespace Meetins.Contollers
             {
                 var result = await _reportsService.OpenReportAsync(report.ReportId);
 
-                return Ok(true);
+                return Ok(result);
             }
             catch (Exception e)
             {
