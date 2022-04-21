@@ -52,8 +52,8 @@ namespace Meetins.Abstractions.Repositories
 
         Task<bool> CreateReportAsync(Guid userId, string topic, string text);
 
-        Task<bool> MakeReportClosedAsync(Guid reportId);
+        Task<bool> CloseReportAsync(Guid reportId);
 
-        Task<bool> MakeReportOpenAsync(Guid reportId);
+        Task<bool> OpenReportAsync(Guid reportId);
     }
 }

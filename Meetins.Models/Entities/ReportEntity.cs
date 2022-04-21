@@ -26,8 +26,8 @@ namespace Meetins.Models.Entities
         /// <summary>
         /// Открыто или закрыто обращение.
         /// </summary>
-        [Column("Status", TypeName = "varchar")]
-        public string Status { get; set; }
+        [Column("IsOpened", TypeName = "bool")]
+        public bool IsOpened { get; set; }
 
         /// <summary>
         /// Тема обращения.

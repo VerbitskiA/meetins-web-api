@@ -37,7 +37,7 @@ namespace Meetins.Services.Reports
                     ReportId = report.ReportId,
                     UserId = report.UserId,
                     UserName = report.User.Name,
-                    Status = report.Status,
+                    IsOpened = report.IsOpened,
                     Topic = report.Topic,
                     Text = report.Text,
                     Date = report.Date
@@ -72,7 +72,7 @@ namespace Meetins.Services.Reports
                     ReportId = report.ReportId,
                     UserId = report.UserId,
                     UserName = report.User.Name,
-                    Status = report.Status,
+                    IsOpened = report.IsOpened,
                     Topic = report.Topic,
                     Text = report.Text,
                     Date = report.Date
@@ -105,7 +105,7 @@ namespace Meetins.Services.Reports
                         ReportId = report.ReportId,
                         UserId = report.UserId,
                         UserName = report.User.Name,
-                        Status = report.Status,
+                        IsOpened = report.IsOpened,
                         Topic = report.Topic,
                         Text = report.Text,
                         Date = report.Date
@@ -131,14 +131,14 @@ namespace Meetins.Services.Reports
         {
             try
             {
-                var result = await _postgreDbContext.Reports.Where(report => report.Status.ToLower().Equals("open"))
+                var result = await _postgreDbContext.Reports.Where(report => report.IsOpened == true)
                     .Include(d => d.User)
                     .Select(report => new ReportOutput
                     {
                         ReportId = report.ReportId,
                         UserId = report.UserId,
                         UserName = report.User.Name,
-                        Status = report.Status,
+                        IsOpened = report.IsOpened,
                         Topic = report.Topic,
                         Text = report.Text,
                         Date = report.Date
@@ -164,14 +164,14 @@ namespace Meetins.Services.Reports
         {
             try
             {
-                var result = await _postgreDbContext.Reports.Where(report => report.Status.Equals("closed"))
+                var result = await _postgreDbContext.Reports.Where(report => report.IsOpened == false)
                     .Include(d => d.User)
                     .Select(report => new ReportOutput
                     {
                         ReportId = report.ReportId,
                         UserId = report.UserId,
                         UserName = report.User.Name,
-                        Status = report.Status,
+                        IsOpened = report.IsOpened,
                         Topic = report.Topic,
                         Text = report.Text,
                         Date = report.Date
@@ -206,7 +206,7 @@ namespace Meetins.Services.Reports
                     ReportId = report.ReportId,
                     UserId = report.UserId,
                     UserName = report.User.Name,
-                    Status = report.Status,
+                    IsOpened = report.IsOpened,
                     Topic = report.Topic,
                     Text = report.Text,
                     Date = report.Date
@@ -241,9 +241,10 @@ namespace Meetins.Services.Reports
                 {
                     ReportId = guid,
                     UserId = userId,
-                    Status = "open",
+                    IsOpened = true,
                     Topic = topic,
-                    Text = text
+                    Text = text,
+                    Date = DateTime.Now
                 };
 
                 await _postgreDbContext.Reports.AddAsync(report);
@@ -265,18 +266,18 @@ namespace Meetins.Services.Reports
         /// </summary>
         /// <param name="reportId"> Идентификатор обращения. </param>
         /// <returns> True, если обращение закрыто. </returns>
-        public async Task<bool> MakeReportClosedAsync(Guid reportId)
+        public async Task<bool> CloseReportAsync(Guid reportId)
         {
             try
             {
                 var report = await GetReportById(reportId);
 
-                if (report.Status.Equals("closed"))
+                if (report.IsOpened == false)
                 {
                     throw new ArgumentException("Your report is already closed");
                 }
 
-                report.Status = "closed";
+                report.IsOpened = false;
 
                 await _postgreDbContext.SaveChangesAsync();
 
@@ -296,18 +297,18 @@ namespace Meetins.Services.Reports
         /// </summary>
         /// <param name="reportId"> Идентификатор обращения. </param>
         /// <returns> True, если обращение открыто. </returns>
-        public async Task<bool> MakeReportOpenAsync(Guid reportId)
+        public async Task<bool> OpenReportAsync(Guid reportId)
         {
             try
             {
                 var report = await GetReportById(reportId);
 
-                if (report.Status.Equals("open"))
+                if (report.IsOpened == true)
                 {
                     throw new ArgumentException("Your report is already open");
                 }
 
-                report.Status = "open";
+                report.IsOpened = true;
 
                 await _postgreDbContext.SaveChangesAsync();
 

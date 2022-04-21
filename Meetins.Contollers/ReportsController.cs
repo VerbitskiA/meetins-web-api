@@ -38,7 +38,7 @@ namespace Meetins.Contollers
 
                 if (result.Count() == 0)
                 {
-                    return BadRequest(new { errorText = "Reports not found" });
+                    return NoContent();
                 }
 
                 return Ok(result);
@@ -69,6 +69,11 @@ namespace Meetins.Contollers
             {
                 var result = await _reportsService.GetReportByReportIdAsync(report.ReportId);
 
+                if (result is null)
+                {
+                    return NoContent();
+                }
+
                 return Ok(result);
             }
             catch(Exception e)
@@ -98,7 +103,7 @@ namespace Meetins.Contollers
 
                 if (result.Count() == 0)
                 {
-                    return BadRequest(new { errorText = "Reports from this UserId not found." });
+                    return NoContent();
                 }
 
                 return Ok(result);
@@ -124,7 +129,7 @@ namespace Meetins.Contollers
 
                 if (result.Count() == 0)
                 {
-                    return BadRequest(new { errorText = "Open reports not found" });
+                    return NoContent();
                 }
 
                 return Ok(result);
@@ -150,7 +155,7 @@ namespace Meetins.Contollers
 
                 if (result.Count() == 0)
                 {
-                    return BadRequest(new { errorText = "Closed reports not found" });
+                    return NoContent();
                 }
 
                 return Ok(result);
@@ -182,7 +187,7 @@ namespace Meetins.Contollers
 
                 if (result.Count() == 0)
                 {
-                    return BadRequest(new { errorText = "Reports for a given period of time not found" });
+                    return NoContent();
                 }
 
                 return Ok(result);
@@ -213,7 +218,7 @@ namespace Meetins.Contollers
 
             if (report.Equals(Guid.Empty))
             {
-                return BadRequest(new { errorText = "Incorrect request body." });
+                return NoContent();
             }
 
             try
@@ -236,7 +241,7 @@ namespace Meetins.Contollers
         [HttpPost]
         [Route("close")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
-        public async Task<ActionResult<bool>> MakeReportClosedAsync([FromBody] ReportByIdInput report)
+        public async Task<ActionResult<bool>> CloseReportAsync([FromBody] ReportByIdInput report)
         {
             if (report.ReportId.Equals(Guid.Empty))
             {
@@ -245,7 +250,7 @@ namespace Meetins.Contollers
 
             try
             {
-                var result = await _reportsService.MakeReportClosedAsync(report.ReportId);
+                var result = await _reportsService.CloseReportAsync(report.ReportId);
 
                 return Ok(true);
             }
@@ -263,7 +268,7 @@ namespace Meetins.Contollers
         [HttpPost]
         [Route("open")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ReportOutput>))]
-        public async Task<ActionResult<bool>> MakeReportOpenAsync([FromBody] ReportByIdInput report)
+        public async Task<ActionResult<bool>> OpenReportAsync([FromBody] ReportByIdInput report)
         {
             if (report.ReportId.Equals(Guid.Empty))
             {
@@ -272,7 +277,7 @@ namespace Meetins.Contollers
 
             try
             {
-                var result = await _reportsService.MakeReportOpenAsync(report.ReportId);
+                var result = await _reportsService.OpenReportAsync(report.ReportId);
 
                 return Ok(true);
             }

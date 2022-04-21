@@ -144,7 +144,7 @@ namespace Meetins.Services.Reports
             {
                 var result = await _reportRepository.CreateReportAsync(userId, topic, text);
 
-                return true;
+                return result;
             }
             catch (Exception)
             {
@@ -157,13 +157,13 @@ namespace Meetins.Services.Reports
         /// </summary>
         /// <param name="reportId"> Идентификатор обращения. </param>
         /// <returns> True, если обращение закрыто. </returns>
-        public async Task<bool> MakeReportClosedAsync(Guid reportId)
+        public async Task<bool> CloseReportAsync(Guid reportId)
         {
             try
             {
-                var result = await _reportRepository.MakeReportClosedAsync(reportId);
+                var result = await _reportRepository.CloseReportAsync(reportId);
 
-                return true;
+                return result;
             }
             catch (Exception)
             {
@@ -176,13 +176,13 @@ namespace Meetins.Services.Reports
         /// </summary>
         /// <param name="reportId"> Идентификатор обращения. </param>
         /// <returns> True, если обращение открыто. </returns>
-        public async Task<bool> MakeReportOpenAsync(Guid reportId)
+        public async Task<bool> OpenReportAsync(Guid reportId)
         {
             try
             {
-                var result = await _reportRepository.MakeReportOpenAsync(reportId);
+                var result = await _reportRepository.OpenReportAsync(reportId);
 
-                return true;
+                return result;
             }
             catch (Exception)
             {

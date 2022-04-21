@@ -25,7 +25,7 @@ namespace Meetins.Models.Reports
         /// <summary>
         /// Закрыто или открыто обращение.
         /// </summary>
-        public string Status { get; set; }
+        public bool IsOpened { get; set; }
 
         /// <summary>
         /// Тема обращения.
