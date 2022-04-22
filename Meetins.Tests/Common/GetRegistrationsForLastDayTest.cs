@@ -13,7 +13,7 @@ namespace Meetins.Tests.Common
     public class GetRegistrationsForLastDayTest : BaseServiceTest
     {
         [TestMethod]
-        public async Task GetRegistrationsForLastDayAsyncTest()
+        public async Task GetRegistrationsForLastDayAsyncTest_ReturnsThree()
         {
             //Arrange 
             async Task<int> GetMockedRegistrationsForLastDay()
