@@ -123,6 +123,21 @@ namespace Meetins.Abstractions.Repositories
         Task<UserEntity> UpdateBirthDateAsync(Guid userId, DateTime birthDate);
 
         /// <summary>
+        /// Метод обновит город пользователя.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="cityId">Идентификатор нового города.</param>
+        /// <returns>Данные пользователя</returns>
+        Task<UserEntity> UpdateCityIdAsync(Guid userId, Guid cityId);
+
+        /// <summary>
+        /// Метод проверит заблокирован ли пользователь
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Статус блокировки пользователя</returns>
+        Task<LockoutStatusOutput> GetUserLockoutStatusAsync(Guid userId);
+
+        /// <summary>
         /// Метод удалит аккаунт пользователя.
         /// </summary>
         /// <param name="userId"> Идентификатор пользователя. </param>

@@ -147,6 +147,33 @@ namespace Meetins.Controllers
         }
 
         /// <summary>
+        /// Метод проверит заблокирован ли пользователь / дату разблокировки пользователя
+        /// </summary>
+        /// <returns>Статус блокировки / дату разблокировки пользователя</returns>
+        [HttpGet]
+        [Route("check-lockout-status")]
+        public async Task<ActionResult<LockoutStatusOutput>> GetUserLockoutStatusAsync()
+        {
+            try
+            {
+                string rawUserId = HttpContext.User.FindFirst("userId").Value;
+
+                if (!Guid.TryParse(rawUserId, out Guid userId))
+                {
+                    return Unauthorized();
+                }
+
+                var LockoutStatus = await _userService.GetUserLockoutStatusAsync(userId);
+
+                return Ok(LockoutStatus);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        /// <summary>
         /// Метод удалит все рефреш токены пользователя и выйдет из системы.
         /// </summary>
         /// <returns>Статус удаления.</returns>
@@ -225,6 +252,8 @@ namespace Meetins.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        
     }
 }
 

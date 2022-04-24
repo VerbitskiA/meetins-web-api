@@ -467,6 +467,28 @@ namespace Meetins.Services.User
             }
         }
 
+        /// Метод обновит город пользователя.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="cityId">Идентификатор нового города.</param>
+        /// <returns>Данные пользователя.</returns>
+        public async Task<UserEntity> UpdateCityIdAsync(Guid userId, Guid cityId)
+        {
+            try
+            {
+                var user = await _userRepository.UpdateCityIdAsync(userId, cityId);
+
+                return user;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                await logger.LogError();
+                throw;
+            }
+        }
+
         /// <summary>
         /// Метод отправит и сохранит код в БД.
         /// </summary>
@@ -514,6 +536,28 @@ namespace Meetins.Services.User
                 var confirmStatus = await _userRepository.ConfirmMailAsync(userId, code);
 
                 return confirmStatus;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                await logger.LogError();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Метод проверит заблокирован ли пользователь / дату разблокировки пользователя
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Статус блокировки / дату разблокировки пользователя</returns>
+        public async Task<LockoutStatusOutput> GetUserLockoutStatusAsync(Guid userId)
+        {
+            try
+            {
+                var LockoutStatus = await _userRepository.GetUserLockoutStatusAsync(userId);
+
+                return LockoutStatus;
             }
             catch (Exception e)
             {

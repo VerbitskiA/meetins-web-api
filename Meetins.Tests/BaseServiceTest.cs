@@ -1,6 +1,8 @@
-﻿using Meetins.Core.Data;
+﻿using Meetins.Communication.Services;
+using Meetins.Core.Data;
 using Meetins.Services.Common;
 using Meetins.Services.KudaGo;
+using Meetins.Services.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
@@ -19,6 +21,12 @@ namespace Meetins.Tests
 
         protected KudaGoService KudaGoService;
         protected KudaGoRepository KudaGoRepository;
+
+        protected UserRepository UserRepository;
+
+        protected RefreshTokenRepository RefreshTokenRepository;
+
+        protected MailingService MailingService;
 
         public BaseServiceTest()
         {
@@ -43,6 +51,12 @@ namespace Meetins.Tests
 
             KudaGoRepository = new KudaGoRepository();
             KudaGoService = new KudaGoService(KudaGoRepository,PostgreDbContext);
+
+            UserRepository = new UserRepository(PostgreDbContext);
+
+            RefreshTokenRepository = new RefreshTokenRepository(PostgreDbContext);
+
+            MailingService = new MailingService(AppConfiguration, PostgreDbContext);
         }
     }
 }

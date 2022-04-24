@@ -22,7 +22,7 @@ namespace Meetins.Tests.Profile
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(a => a.GetUserByLoginAsync(It.IsAny<string>())).Throws(new NotFoundException("Пользователь с таким логином не найден."));
 
-            var service = new ProfileService(mockRepository.Object, PostgreDbContext);
+            var service = new ProfileService(mockRepository.Object, PostgreDbContext, CommonService);
 
             //Act
             try
@@ -44,7 +44,7 @@ namespace Meetins.Tests.Profile
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(a => a.GetUserByLoginAsync(It.IsAny<string>())).ReturnsAsync(new UserEntity());
 
-            var service = new ProfileService(mockRepository.Object, PostgreDbContext);
+            var service = new ProfileService(mockRepository.Object, PostgreDbContext, CommonService);
 
             //Act
             var result = await service.GetUserProfileByLoginAsync("super_dendi");
@@ -60,7 +60,7 @@ namespace Meetins.Tests.Profile
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(a => a.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(new UserEntity());
 
-            var service = new ProfileService(mockRepository.Object, PostgreDbContext);
+            var service = new ProfileService(mockRepository.Object, PostgreDbContext, CommonService);
 
             //Act
             var result = await service.GetUserProfileAsync(Guid.NewGuid());
@@ -76,7 +76,7 @@ namespace Meetins.Tests.Profile
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(a => a.GetUserByIdAsync(It.IsAny<Guid>())).Throws(new NotFoundException("Пользователь с таким логином не найден."));
 
-            var service = new ProfileService(mockRepository.Object, PostgreDbContext);
+            var service = new ProfileService(mockRepository.Object, PostgreDbContext, CommonService);
 
             //Act
             try
