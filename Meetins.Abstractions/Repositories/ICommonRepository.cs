@@ -17,10 +17,16 @@ namespace Meetins.Abstractions.Repositories
         Task<IEnumerable<CityOutput>> GetAllCitiesAsync(); 
         
         /// <summary>
-        /// Получение названия города по ижентификатору города
+        /// Получение названия города по идентификатору города
         /// </summary>
         /// <param name="cityId">Идентификатор города</param>
         /// <returns>Название города</returns>
         Task<string> GetCityNameAsync(Guid cityId);
+
+        /// <summary>
+        /// Метод получает число зарегистрированных пользователей за последние сутки
+        /// </summary>
+        /// <returns>Число зарегистрированных пользователей</returns>
+        Task<int> GetRegistrationsForLastDayAsync();
     }
 }
