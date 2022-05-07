@@ -77,7 +77,7 @@ namespace Meetins.WebApi
                         };
                     });
 
-            
+            //services.AddEntityFrameworkInMemoryDatabase().AddDbContext<InMemoryContext>();
             services.AddDbContext<PostgreDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("NpgTestSqlConnection")));
 
@@ -89,6 +89,7 @@ namespace Meetins.WebApi
 
             services.AddSingleton<MessengerManager>();
 
+            services.AddTransient<IDataContext, InMemoryContext>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddTransient<IAboutRepository, AboutRepository>();

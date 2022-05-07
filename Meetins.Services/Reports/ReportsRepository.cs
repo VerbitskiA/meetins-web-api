@@ -16,11 +16,11 @@ namespace Meetins.Services.Reports
     /// </summary>
     public class ReportsRepository : IReportsRepository
     {
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public ReportsRepository(PostgreDbContext postgreDbContext)
+        public ReportsRepository(IDataContext dataContext)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Meetins.Services.Reports
         {
             try
             {
-                var result = await _postgreDbContext.Reports.Include(d => d.User)
+                var result = await _dataContext.Reports.Include(d => d.User)
                 .Select(report => new ReportOutput
                 {
                     ReportId = report.ReportId,
@@ -49,7 +49,7 @@ namespace Meetins.Services.Reports
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -83,7 +83,7 @@ namespace Meetins.Services.Reports
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -98,7 +98,7 @@ namespace Meetins.Services.Reports
         {
             try
             {
-                var result = await _postgreDbContext.Reports.Where(report => report.UserId.Equals(userId))
+                var result = await _dataContext.Reports.Where(report => report.UserId.Equals(userId))
                     .Include(d => d.User)
                     .Select(report => new ReportOutput
                     {
@@ -117,7 +117,7 @@ namespace Meetins.Services.Reports
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -131,7 +131,7 @@ namespace Meetins.Services.Reports
         {
             try
             {
-                var result = await _postgreDbContext.Reports.Where(report => report.IsOpened == true)
+                var result = await _dataContext.Reports.Where(report => report.IsOpened == true)
                     .Include(d => d.User)
                     .Select(report => new ReportOutput
                     {
@@ -150,7 +150,7 @@ namespace Meetins.Services.Reports
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -164,7 +164,7 @@ namespace Meetins.Services.Reports
         {
             try
             {
-                var result = await _postgreDbContext.Reports.Where(report => report.IsOpened == false)
+                var result = await _dataContext.Reports.Where(report => report.IsOpened == false)
                     .Include(d => d.User)
                     .Select(report => new ReportOutput
                     {
@@ -183,7 +183,7 @@ namespace Meetins.Services.Reports
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -199,7 +199,7 @@ namespace Meetins.Services.Reports
         {
             try
             {
-                var result = await _postgreDbContext.Reports.Where(report => report.Date >= startOfPeriod && report.Date <= endOfPeriod)
+                var result = await _dataContext.Reports.Where(report => report.Date >= startOfPeriod && report.Date <= endOfPeriod)
                 .Include(d => d.User)
                 .Select(report => new ReportOutput
                 {
@@ -218,7 +218,7 @@ namespace Meetins.Services.Reports
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -247,15 +247,15 @@ namespace Meetins.Services.Reports
                     Date = DateTime.Now
                 };
 
-                await _postgreDbContext.Reports.AddAsync(report);
-                await _postgreDbContext.SaveChangesAsync();
+                await _dataContext.Reports.AddAsync(report);
+                await _dataContext.SaveAllChangesAsync();
 
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -279,14 +279,14 @@ namespace Meetins.Services.Reports
 
                 report.IsOpened = false;
 
-                await _postgreDbContext.SaveChangesAsync();
+                await _dataContext.SaveAllChangesAsync();
 
                 return true;
             }
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }        
@@ -310,14 +310,14 @@ namespace Meetins.Services.Reports
 
                 report.IsOpened = true;
 
-                await _postgreDbContext.SaveChangesAsync();
+                await _dataContext.SaveAllChangesAsync();
 
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -330,7 +330,7 @@ namespace Meetins.Services.Reports
         /// <returns> Обращение. </returns>
         private async Task<ReportEntity> GetReportById(Guid reportId)
         {
-            var report = await _postgreDbContext.Reports.Include(d => d.User).FirstOrDefaultAsync(report => report.ReportId.Equals(reportId));
+            var report = await _dataContext.Reports.Include(d => d.User).FirstOrDefaultAsync(report => report.ReportId.Equals(reportId));
 
             if (report is null)
             {

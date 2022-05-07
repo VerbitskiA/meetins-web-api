@@ -15,14 +15,20 @@ namespace Meetins.Services.Profile
     public class ProfileService : IProfileService
     {
         private IUserRepository _userRepository;
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
         private ICommonService _commonService;
 
-        public ProfileService(IUserRepository userRepository, PostgreDbContext postgreDbContext, ICommonService commonService)
+        public ProfileService(IUserRepository userRepository, IDataContext dataContext, ICommonService commonService)
         {
             _userRepository = userRepository;
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
             _commonService = commonService;
+        }
+
+        public ProfileService(IUserRepository userRepository, PostgreDbContext postgreDbContext)
+        {
+            _userRepository = userRepository;
+            _dataContext = postgreDbContext;
         }
 
         /// <summary>
@@ -44,7 +50,7 @@ namespace Meetins.Services.Profile
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -76,7 +82,7 @@ namespace Meetins.Services.Profile
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -102,7 +108,7 @@ namespace Meetins.Services.Profile
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -128,7 +134,7 @@ namespace Meetins.Services.Profile
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

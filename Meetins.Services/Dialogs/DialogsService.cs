@@ -17,12 +17,12 @@ namespace Meetins.Services.Dialogs
     public class DialogsService : IDialogsService
     {
         private IDialogsRepository _dialogsRepository;
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public DialogsService(IDialogsRepository dialogsRepository, PostgreDbContext postgreDbContext)
+        public DialogsService(IDialogsRepository dialogsRepository, IDataContext dataContext)
         {
             _dialogsRepository = dialogsRepository;
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Meetins.Services.Dialogs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -63,7 +63,7 @@ namespace Meetins.Services.Dialogs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -81,7 +81,7 @@ namespace Meetins.Services.Dialogs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -98,7 +98,7 @@ namespace Meetins.Services.Dialogs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -115,7 +115,7 @@ namespace Meetins.Services.Dialogs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -135,7 +135,7 @@ namespace Meetins.Services.Dialogs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -157,7 +157,7 @@ namespace Meetins.Services.Dialogs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

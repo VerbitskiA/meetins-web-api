@@ -1,12 +1,14 @@
 ﻿using Meetins.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Threading.Tasks;
 
 namespace Meetins.Core.Data
 {
     /// <summary>
     /// Класс контекста PostgreSql
     /// </summary>
-    public class PostgreDbContext : DbContext
+    public class PostgreDbContext : DbContext, IDataContext
     {
         private readonly DbContextOptions<PostgreDbContext> _options;
 
@@ -80,8 +82,19 @@ namespace Meetins.Core.Data
         /// </summary>
         public DbSet<ReportEntity> Reports { get; set; }
 
+        /// <summary>
         /// Соответствует таблице Events.KudagoInvites.
         /// </summary>
         public DbSet<KudagoInvites> KudagoInvites { get; set; }
+
+        public Task<int> SaveAllChangesAsync()
+        {
+            return SaveChangesAsync();
+        }
+
+        public ValueTask<EntityEntry> AddAllAsync(object entity)
+        {
+            return AddAsync(entity);
+        }
     }
 }

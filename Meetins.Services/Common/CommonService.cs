@@ -15,12 +15,12 @@ namespace Meetins.Services.Common
     public class CommonService : ICommonService
     {
         private ICommonRepository _commonRepository;
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public CommonService(ICommonRepository commonRepository, PostgreDbContext postgreDbContext)
+        public CommonService(ICommonRepository commonRepository, IDataContext dataContext)
         {
             _commonRepository = commonRepository;
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Meetins.Services.Common
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -72,7 +72,7 @@ namespace Meetins.Services.Common
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

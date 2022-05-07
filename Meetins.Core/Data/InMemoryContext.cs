@@ -1,11 +1,12 @@
 ﻿using Meetins.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-
+using System.Threading.Tasks;
 
 namespace Meetins.Core.Data
 {
-    public class InMemoryContext : DbContext
+    public class InMemoryContext : DbContext, IDataContext
     {
         public InMemoryContext()
         {
@@ -18,6 +19,7 @@ namespace Meetins.Core.Data
             optionsBuilder.UseInMemoryDatabase(databaseName: "MeetinsDbInMemory");
         }
 
+        public DbSet<LogEntity> Logs { get; set; }
         /// <summary>
         /// Соответствует таблице Info.About.
         /// </summary>
@@ -72,6 +74,26 @@ namespace Meetins.Core.Data
         /// Соответствует таблице dbo.Cities.
         /// </summary>
         public DbSet<CityEntity> Cities { get; set; }
+
+        /// <summary>
+        /// Соответсьвует таблице dbo.Reports.
+        /// </summary>
+        public DbSet<ReportEntity> Reports { get; set; }
+
+        /// <summary>
+        /// Соответствует таблице Events.KudagoInvites.
+        /// </summary>
+        public DbSet<KudagoInvites> KudagoInvites { get; set; }
+
+        public Task<int> SaveAllChangesAsync()
+        {
+            return Task<int>.Factory.StartNew(() => 1);
+        }
+
+        public ValueTask<EntityEntry> AddAllAsync(object entity)
+        {
+            return new ValueTask<EntityEntry>();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -198,6 +220,17 @@ namespace Meetins.Core.Data
                         CityId = new Guid("187AC176-CB22-4216-9AB5-D3A1EF123456"),
                         CityName = "Санкт-Петербург"
                     }
+                });
+
+            modelBuilder.Entity<ReportEntity>().HasData(
+                new ReportEntity
+                {
+                    ReportId = new Guid("5a2d47a8-8916-4ad0-a7c8-df7c69585978"),
+                    UserId = new Guid("22247892-12EB-4382-4598-FA5F097E60B0"),
+                    IsOpened = true,
+                    Topic = "Message",
+                    Text = "Something",
+                    Date = new DateTime(2022, 05, 02)
                 });
         }
     }

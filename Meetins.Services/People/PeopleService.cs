@@ -15,12 +15,12 @@ namespace Meetins.Services.People
     public class PeopleService : IPeopleService
     {
         private IPeopleRepository _peopleRepository;
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public PeopleService(IPeopleRepository peopleRepository, PostgreDbContext postgreDbContext)
+        public PeopleService(IPeopleRepository peopleRepository, IDataContext dataContext)
         {
             _peopleRepository = peopleRepository;
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Meetins.Services.People
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

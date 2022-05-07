@@ -15,11 +15,11 @@ namespace Meetins.Services.Common
     /// </summary>
     public class CommonRepository : ICommonRepository
     {
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public CommonRepository(PostgreDbContext postgreDbContext)
+        public CommonRepository(IDataContext dataContext)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Meetins.Services.Common
         {
             try
             {
-                var result = await _postgreDbContext.Cities
+                var result = await _dataContext.Cities
                 .Select(city => new CityOutput
                 {
                     CityId = city.CityId,
@@ -44,7 +44,7 @@ namespace Meetins.Services.Common
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -59,14 +59,14 @@ namespace Meetins.Services.Common
         {
             try
             {
-                var result = await _postgreDbContext.Cities.FirstOrDefaultAsync(city => city.CityId.Equals(cityId));
+                var result = await _dataContext.Cities.FirstOrDefaultAsync(city => city.CityId.Equals(cityId));
 
                 return result.CityName;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

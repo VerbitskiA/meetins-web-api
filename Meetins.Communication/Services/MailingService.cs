@@ -11,14 +11,14 @@ namespace Meetins.Communication.Services
 {
     public class MailingService : IMailingService
     {
-        private readonly PostgreDbContext _postgreDbContext;
+        private readonly IDataContext _dataContext;
         private readonly IConfiguration _configuration;
 
-        public MailingService(IConfiguration configuration, PostgreDbContext postgreDbContext)
+        public MailingService(IConfiguration configuration, IDataContext dataContext)
         {
 
             _configuration = configuration;
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Meetins.Communication.Services
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
