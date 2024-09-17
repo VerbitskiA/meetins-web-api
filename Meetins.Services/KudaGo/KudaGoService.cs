@@ -15,12 +15,12 @@ namespace Meetins.Services.KudaGo
     public class KudaGoService : IKudaGoService
     {
         private IKudaGoRepository _kudaGoRepository;
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public KudaGoService(IKudaGoRepository kudaGoRepository, PostgreDbContext postgreDbContext)
+        public KudaGoService(IKudaGoRepository kudaGoRepository, IDataContext dataContext)
         {
             _kudaGoRepository = kudaGoRepository;
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Meetins.Services.KudaGo
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -56,7 +56,7 @@ namespace Meetins.Services.KudaGo
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -75,7 +75,7 @@ namespace Meetins.Services.KudaGo
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -94,7 +94,7 @@ namespace Meetins.Services.KudaGo
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -116,7 +116,7 @@ namespace Meetins.Services.KudaGo
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

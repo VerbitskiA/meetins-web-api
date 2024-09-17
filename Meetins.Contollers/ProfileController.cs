@@ -45,7 +45,12 @@ namespace Meetins.Controllers
                 return Unauthorized();
             }
 
-            var profile = await _profileService.GetUserProfileAsync(userId);            
+            var profile = await _profileService.GetUserProfileAsync(userId);
+            
+            if (profile is null)
+            {
+                return NoContent();
+            }
 
             return Ok(profile);
         }

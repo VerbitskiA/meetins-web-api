@@ -21,11 +21,11 @@ namespace Meetins.Services.KudaGo
     {
         private string ApiUrl = "https://kudago.com/public-api/";
         private string ApiVersion = "v1.4";
-        private readonly PostgreDbContext _postgreDbContext;
+        private readonly IDataContext _dataContext;
 
-        public KudaGoRepository(PostgreDbContext postgreDbContext)
+        public KudaGoRepository(IDataContext dataContext)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Meetins.Services.KudaGo
         {
             try
             {
-                var result = await _postgreDbContext.KudagoInvites
+                var result = await _dataContext.KudagoInvites
                                     .Where(u => u.UserIdTo == userId)
                                     .Include(u=>u.UserFrom)
                                     .Select(u=> new KudagoInvitesOutput
@@ -162,7 +162,7 @@ namespace Meetins.Services.KudaGo
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;                
             }

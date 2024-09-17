@@ -12,12 +12,12 @@ namespace Meetins.Services.MainPage
     public class AboutService : IAboutService
     {
         private IAboutRepository _aboutRepository;
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public AboutService(IAboutRepository aboutRepository, PostgreDbContext postgreDbContext)
+        public AboutService(IAboutRepository aboutRepository, IDataContext dataContext)
         {
             _aboutRepository = aboutRepository;
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         public async Task<IEnumerable<AboutsOutput>> GetAboutsAsync()
@@ -31,7 +31,7 @@ namespace Meetins.Services.MainPage
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

@@ -41,7 +41,7 @@ namespace Meetins.Tests
             CommonRepository = new CommonRepository(PostgreDbContext);
             CommonService = new CommonService(CommonRepository, PostgreDbContext);
 
-            KudaGoRepository = new KudaGoRepository();
+            KudaGoRepository = new KudaGoRepository(PostgreDbContext);
             KudaGoService = new KudaGoService(KudaGoRepository,PostgreDbContext);
         }
     }

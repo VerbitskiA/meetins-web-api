@@ -25,6 +25,7 @@ using Meetins.Services.KudaGo;
 using Microsoft.EntityFrameworkCore;
 using Meetins.Communication.Abstractions;
 using Meetins.Communication.Services;
+using Meetins.Services.Reports;
 
 namespace Meetins.WebApi
 {
@@ -76,7 +77,7 @@ namespace Meetins.WebApi
                         };
                     });
 
-            
+            //services.AddEntityFrameworkInMemoryDatabase().AddDbContext<InMemoryContext>();
             services.AddDbContext<PostgreDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("NpgTestSqlConnection")));
 
@@ -88,6 +89,7 @@ namespace Meetins.WebApi
 
             services.AddSingleton<MessengerManager>();
 
+            services.AddTransient<IDataContext, InMemoryContext>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddTransient<IAboutRepository, AboutRepository>();
@@ -96,6 +98,7 @@ namespace Meetins.WebApi
             services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<ICommonRepository, CommonRepository>();
             services.AddTransient<IKudaGoRepository, KudaGoRepository>();
+            services.AddTransient<IReportsRepository, ReportsRepository>();
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IProfileService, ProfileService>();
@@ -107,6 +110,7 @@ namespace Meetins.WebApi
             services.AddTransient<ICommonService, CommonService>();
             services.AddTransient<IKudaGoService, KudaGoService>();
             services.AddTransient<IMailingService, MailingService>();
+            services.AddTransient<IReportsService, ReportsService>();
             services.AddCors();
             services.AddSignalR();
         }

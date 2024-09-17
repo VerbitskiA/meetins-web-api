@@ -15,11 +15,11 @@ namespace Meetins.Services.People
     /// </summary>
     public class PeopleRepository : IPeopleRepository
     {
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public PeopleRepository(PostgreDbContext postgreDbContext)
+        public PeopleRepository(IDataContext dataContext)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Meetins.Services.People
         {
             try
             {
-                var result = await _postgreDbContext.Users.Where(d => d.UserId != userId).Include(d => d.City)
+                var result = await _dataContext.Users.Where(d => d.UserId != userId).Include(d => d.City)
                            .Select(d => new PeopleOutput
                            {
                                Login = d.Login,
@@ -48,7 +48,7 @@ namespace Meetins.Services.People
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

@@ -16,12 +16,12 @@ namespace Meetins.Services.User
     /// </summary>
     public class UserRepository : IUserRepository
     {
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
         private ICommonService _commonService;
 
-        public UserRepository(PostgreDbContext postgreDbContext, ICommonService commonService)
+        public UserRepository(IDataContext dataContext, ICommonService commonService)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
             _commonService = commonService;
         }
 
@@ -62,8 +62,8 @@ namespace Meetins.Services.User
                     ConfirmEmailCode = "123456"
                 };
 
-                await _postgreDbContext.Users.AddAsync(user);
-                await _postgreDbContext.SaveChangesAsync();
+                await _dataContext.Users.AddAsync(user);
+                await _dataContext.SaveAllChangesAsync();
 
                 return user;
 
@@ -71,7 +71,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -91,14 +91,14 @@ namespace Meetins.Services.User
                     throw new ArgumentNullException(nameof(email), $"Емейл не может быть пустым или null");
                 }
 
-                var user = await _postgreDbContext.Users.FirstOrDefaultAsync(b => b.NormalizedEmail.Equals(email.ToUpperInvariant()));
+                var user = await _dataContext.Users.FirstOrDefaultAsync(b => b.NormalizedEmail.Equals(email.ToUpperInvariant()));
 
                 return user;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -113,14 +113,14 @@ namespace Meetins.Services.User
         {
             try
             {
-                var user = await _postgreDbContext.Users.FirstOrDefaultAsync(b => b.UserId.Equals(guid));
+                var user = await _dataContext.Users.FirstOrDefaultAsync(b => b.UserId.Equals(guid));
 
                 return user;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -135,14 +135,14 @@ namespace Meetins.Services.User
         {
             try
             {
-                var user = await _postgreDbContext.Users.FirstOrDefaultAsync(b => b.NormalizedLogin.Equals(login.ToUpperInvariant()));
+                var user = await _dataContext.Users.FirstOrDefaultAsync(b => b.NormalizedLogin.Equals(login.ToUpperInvariant()));
 
                 return user;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -157,14 +157,14 @@ namespace Meetins.Services.User
         {
             try
             {
-                var user = await _postgreDbContext.Users.FirstOrDefaultAsync(b => b.PhoneNumber.Equals(phone));
+                var user = await _dataContext.Users.FirstOrDefaultAsync(b => b.PhoneNumber.Equals(phone));
 
                 return user;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -180,14 +180,14 @@ namespace Meetins.Services.User
         {
             try
             {
-                var user = await _postgreDbContext.Users.FirstOrDefaultAsync(b => b.Email.Equals(email) && b.Password.Equals(password));
+                var user = await _dataContext.Users.FirstOrDefaultAsync(b => b.Email.Equals(email) && b.Password.Equals(password));
 
                 return user;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -203,13 +203,13 @@ namespace Meetins.Services.User
         {
             try
             {
-                var user = await _postgreDbContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
+                var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
 
                 if (user != null)
                 {
                     user.Avatar = newAvatarPath;
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return user;
@@ -217,7 +217,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -233,13 +233,13 @@ namespace Meetins.Services.User
         {
             try
             {
-                var user = await _postgreDbContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
+                var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
 
                 if (user != null)
                 {
                     user.Status = status;
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return user;
@@ -247,7 +247,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -262,19 +262,19 @@ namespace Meetins.Services.User
         {
             try
             {
-                var userToDelete = await _postgreDbContext.Users
+                var userToDelete = await _dataContext.Users
                 .Where(b => b.UserId.Equals(userId))
                 .FirstOrDefaultAsync();
 
-                _postgreDbContext.Users.Remove(userToDelete);
-                await _postgreDbContext.SaveChangesAsync();
+                _dataContext.Users.Remove(userToDelete);
+                await _dataContext.SaveAllChangesAsync();
 
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -304,7 +304,7 @@ namespace Meetins.Services.User
                     findedUser.Email = email;
                     findedEmail.NormalizedEmail = email.ToUpperInvariant();
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return findedUser;
@@ -312,7 +312,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -334,7 +334,7 @@ namespace Meetins.Services.User
                 {
                     user.Password = password;
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return user;
@@ -342,7 +342,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -372,7 +372,7 @@ namespace Meetins.Services.User
                     findedUser.Login = login;
                     findedLogin.Login = login.ToUpperInvariant();
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return findedUser;
@@ -380,7 +380,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -402,7 +402,7 @@ namespace Meetins.Services.User
                 {
                     user.Name = name;
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return user;
@@ -410,7 +410,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -439,7 +439,7 @@ namespace Meetins.Services.User
                 {
                     findedUser.PhoneNumber = phone;
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return findedUser;
@@ -447,7 +447,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -469,7 +469,7 @@ namespace Meetins.Services.User
                 {
                     user.BirthDate = birthDate;
 
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                 }
 
                 return user;
@@ -477,7 +477,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -497,14 +497,14 @@ namespace Meetins.Services.User
 
                 findedUser.ConfirmEmailCode = code;
 
-                await _postgreDbContext.SaveChangesAsync();
+                await _dataContext.SaveAllChangesAsync();
 
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -530,7 +530,7 @@ namespace Meetins.Services.User
                 if (findedUser.ConfirmEmailCode == code)
                 {
                     findedUser.EmailConfirmed = true;
-                    await _postgreDbContext.SaveChangesAsync();
+                    await _dataContext.SaveAllChangesAsync();
                     return true;
                 }
 
@@ -539,7 +539,7 @@ namespace Meetins.Services.User
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

@@ -13,18 +13,18 @@ namespace Meetins.Services.MainPage
     //TODO: переименовать в MainPageRepository
     public class AboutRepository : IAboutRepository
     {
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public AboutRepository(PostgreDbContext postgreDbContext)
+        public AboutRepository(IDataContext dataContext)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         public async Task<IEnumerable<AboutsOutput>> GetAboutsAsync()
         {
             try
             {
-                var result = await (from a in _postgreDbContext.Abouts
+                var result = await (from a in _dataContext.Abouts
                                     select new AboutsOutput
                                     {
                                         MainText = a.MainText,
@@ -37,7 +37,7 @@ namespace Meetins.Services.MainPage
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

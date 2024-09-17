@@ -17,11 +17,11 @@ namespace Meetins.Services.Ftp
 
         private readonly string defaultAvatar = "/images/no-photo.png";
 
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public FtpService(PostgreDbContext postgreDbContext)
+        public FtpService(IDataContext dataContext)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Meetins.Services.Ftp
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -80,7 +80,7 @@ namespace Meetins.Services.Ftp
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }

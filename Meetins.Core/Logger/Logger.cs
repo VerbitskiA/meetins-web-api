@@ -11,9 +11,9 @@ namespace Meetins.Core.Logger
     public class Logger
     {
         private readonly LogEntity _log;
-        private readonly PostgreDbContext _postgreDbContext;
+        private readonly IDataContext _dataContext;
 
-        public Logger(PostgreDbContext postgreDbContext, string typeException, string exception, string stackTrace)
+        public Logger(IDataContext dataContext, string typeException, string exception, string stackTrace)
         {
             /// <summary>
             /// Инициализация объекта лога.
@@ -26,7 +26,7 @@ namespace Meetins.Core.Logger
                 Date = DateTime.Now
             };
 
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace Meetins.Core.Logger
         public async Task LogCritical()
         {
             _log.LogLvl = "Critical";
-            await _postgreDbContext.Logs.AddAsync(_log);
-            await _postgreDbContext.SaveChangesAsync();
+            await _dataContext.Logs.AddAsync(_log);
+            await _dataContext.SaveAllChangesAsync();
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace Meetins.Core.Logger
         public async Task LogInformation()
         {
             _log.LogLvl = "Information";
-            await _postgreDbContext.Logs.AddAsync(_log);
-            await _postgreDbContext.SaveChangesAsync();
+            await _dataContext.Logs.AddAsync(_log);
+            await _dataContext.SaveAllChangesAsync();
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace Meetins.Core.Logger
         public async Task LogError()
         {
             _log.LogLvl = "Error";
-            await _postgreDbContext.Logs.AddAsync(_log);
-            await _postgreDbContext.SaveChangesAsync();
+            await _dataContext.Logs.AddAsync(_log);
+            await _dataContext.SaveAllChangesAsync();
         }
 
         /// <summary>
@@ -65,8 +65,8 @@ namespace Meetins.Core.Logger
         public async Task LogWarning()
         {
             _log.LogLvl = "Warning";
-            await _postgreDbContext.Logs.AddAsync(_log);
-            await _postgreDbContext.SaveChangesAsync();
+            await _dataContext.Logs.AddAsync(_log);
+            await _dataContext.SaveAllChangesAsync();
         }
     }
 }

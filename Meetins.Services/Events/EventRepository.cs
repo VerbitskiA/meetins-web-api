@@ -16,11 +16,11 @@ namespace Meetins.Services.Events
     /// </summary>
     public class EventRepository : IEventRepository
     {
-        private PostgreDbContext _postgreDbContext;
+        private IDataContext _dataContext;
 
-        public EventRepository(PostgreDbContext postgreDbContext)
+        public EventRepository(IDataContext dataContext)
         {
-            _postgreDbContext = postgreDbContext;
+            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Meetins.Services.Events
         {
             try
             {
-                var result = await _postgreDbContext.Events.Where(e => e.EventId.Equals(eventId))
+                var result = await _dataContext.Events.Where(e => e.EventId.Equals(eventId))
                     .Include(e => e.EventsCategory)
                     .Select(e => new EventOutput
                     {
@@ -52,7 +52,7 @@ namespace Meetins.Services.Events
                 }
 
                 //список подписчиков
-                List<Subscriber> subscribers = await _postgreDbContext.EventsToUsers
+                List<Subscriber> subscribers = await _dataContext.EventsToUsers
                     .Where(e => e.EventId == eventId && e.IsUserSubscribed == true)
                     .Include(e => e.User)
                     .Select(e => new Subscriber
@@ -75,7 +75,7 @@ namespace Meetins.Services.Events
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -89,7 +89,7 @@ namespace Meetins.Services.Events
         {
             try
             {
-                var result = await _postgreDbContext.EventsCategories
+                var result = await _dataContext.EventsCategories
                     .Select(e => new EventsCategoryOutput
                     {
                         EventsCategoryId = e.EventsCategotyId,
@@ -102,7 +102,7 @@ namespace Meetins.Services.Events
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -116,7 +116,7 @@ namespace Meetins.Services.Events
         {
             try
             {
-                var result = await _postgreDbContext.Events
+                var result = await _dataContext.Events
                        .Include(e => e.EventsCategory)
                        .Select(e => new EventOutput
                        {
@@ -133,7 +133,7 @@ namespace Meetins.Services.Events
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -150,14 +150,14 @@ namespace Meetins.Services.Events
         {
             try
             {
-                var findedUser = await _postgreDbContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
+                var findedUser = await _dataContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
 
                 if (findedUser is null)
                 {
                     throw new ArgumentException($"Пользователя с идентификатором {userId} не найдено.");
                 }
 
-                var findedEvent = await _postgreDbContext.Events.FirstOrDefaultAsync(u => u.EventId.Equals(eventId));
+                var findedEvent = await _dataContext.Events.FirstOrDefaultAsync(u => u.EventId.Equals(eventId));
 
                 if (findedEvent is null)
                 {
@@ -175,7 +175,7 @@ namespace Meetins.Services.Events
                 if (isUserSubscribe is null)
                 {
                     //раньше не подписывался
-                    await _postgreDbContext.EventsToUsers
+                    await _dataContext.EventsToUsers
                     .AddAsync(new EventsToUsersEntity
                     {
                         EventId = eventId,
@@ -190,10 +190,10 @@ namespace Meetins.Services.Events
                     isUserSubscribe.IsUserSubscribed = true;
                 }
 
-                await _postgreDbContext.SaveChangesAsync();
+                await _dataContext.SaveAllChangesAsync();
 
                 //собираем событие
-                var result = await _postgreDbContext.Events.Where(e => e.EventId.Equals(eventId))
+                var result = await _dataContext.Events.Where(e => e.EventId.Equals(eventId))
                     .Include(e => e.EventsCategory)
                     .Select(e => new EventOutput
                     {
@@ -206,7 +206,7 @@ namespace Meetins.Services.Events
                     .FirstOrDefaultAsync();
 
                 //список подписчиков
-                List<Subscriber> subscribers = await _postgreDbContext.EventsToUsers
+                List<Subscriber> subscribers = await _dataContext.EventsToUsers
                     .Where(e => e.EventId == eventId && e.IsUserSubscribed == true)
                     .Include(e => e.User)
                     .Select(e => new Subscriber
@@ -226,7 +226,7 @@ namespace Meetins.Services.Events
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -242,14 +242,14 @@ namespace Meetins.Services.Events
         {
             try
             {
-                var findedUser = await _postgreDbContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
+                var findedUser = await _dataContext.Users.FirstOrDefaultAsync(u => u.UserId.Equals(userId));
 
                 if (findedUser is null)
                 {
                     throw new ArgumentException($"Пользователя с идентификатором {userId} не найдено.");
                 }
 
-                var findedEvent = await _postgreDbContext.Events.FirstOrDefaultAsync(u => u.EventId.Equals(eventId));
+                var findedEvent = await _dataContext.Events.FirstOrDefaultAsync(u => u.EventId.Equals(eventId));
 
                 if (findedEvent is null)
                 {
@@ -267,10 +267,10 @@ namespace Meetins.Services.Events
                 // подписан
                 isUserSubscribe.IsUserSubscribed = false;                
 
-                await _postgreDbContext.SaveChangesAsync();
+                await _dataContext.SaveAllChangesAsync();
 
                 //собираем событие
-                var result = await _postgreDbContext.Events.Where(e => e.EventId.Equals(eventId))
+                var result = await _dataContext.Events.Where(e => e.EventId.Equals(eventId))
                     .Include(e => e.EventsCategory)
                     .Select(e => new EventOutput
                     {
@@ -283,7 +283,7 @@ namespace Meetins.Services.Events
                     .FirstOrDefaultAsync();
 
                 //список подписчиков
-                List<Subscriber> subscribers = await _postgreDbContext.EventsToUsers
+                List<Subscriber> subscribers = await _dataContext.EventsToUsers
                     .Where(e => e.EventId == eventId && e.IsUserSubscribed == true)
                     .Include(e => e.User)
                     .Select(e => new Subscriber
@@ -304,7 +304,7 @@ namespace Meetins.Services.Events
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
@@ -321,7 +321,7 @@ namespace Meetins.Services.Events
         {
             try
             {
-                var result = await _postgreDbContext.EventsToUsers
+                var result = await _dataContext.EventsToUsers
                     .FirstOrDefaultAsync(e => e.EventId.Equals(eventId) && e.UserId.Equals(userId));
 
                 return result;
@@ -329,7 +329,7 @@ namespace Meetins.Services.Events
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                var logger = new Logger(_postgreDbContext, e.GetType().FullName, e.Message, e.StackTrace);
+                var logger = new Logger(_dataContext, e.GetType().FullName, e.Message, e.StackTrace);
                 await logger.LogError();
                 throw;
             }
